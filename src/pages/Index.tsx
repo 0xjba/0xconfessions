@@ -5,6 +5,7 @@ import ConfessionInput from '../components/ConfessionInput';
 import ConfessionsList from '../components/ConfessionsList';
 import AnimatedBackground from '../components/AnimatedBackground';
 import { useWeb3 } from '../lib/web3';
+import { Twitter } from 'lucide-react';
 
 const Index: React.FC = () => {
   const { connected } = useWeb3();
@@ -47,8 +48,15 @@ const Index: React.FC = () => {
       
       {/* Footer */}
       <footer className="w-full py-4 px-4 text-center">
-        <div className="cyber-text text-xs text-opacity-50">
-          CYPHERPUNK CONFESSIONS · BLOCKCHAIN SECURED · {new Date().getFullYear()}
+        <div className="cyber-text text-xs text-opacity-50 flex items-center justify-center gap-1">
+          VIBECODED BY <a 
+            href="https://x.com/0xjba" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="underline hover:text-cyber-blue transition-colors duration-200 inline-flex items-center gap-1"
+          >
+            0XJBA <Twitter className="w-3 h-3 inline" />
+          </a>
         </div>
       </footer>
     </div>
