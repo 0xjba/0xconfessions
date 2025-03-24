@@ -103,6 +103,16 @@ export default {
 						boxShadow: '0 0 15px rgba(0, 255, 65, 0.9), 0 0 25px rgba(0, 255, 65, 0.7)'
 					}
 				},
+				'glow-size': {
+					'0%, 100%': { 
+						transform: 'scale(1)',
+						boxShadow: '0 0 5px rgba(255, 255, 255, 0.5)'
+					},
+					'50%': { 
+						transform: 'scale(1.05)',
+						boxShadow: '0 0 15px rgba(255, 255, 255, 0.8)'
+					}
+				},
 				'text-flicker': {
 					'0%, 100%': { opacity: '1' },
 					'92%': { opacity: '1' },
