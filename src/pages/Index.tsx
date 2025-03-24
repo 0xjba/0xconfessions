@@ -41,8 +41,8 @@ const Index: React.FC = () => {
       {/* Connect wallet button */}
       <ConnectWallet />
       
-      {/* Header */}
-      <header className="w-full pt-16 pb-8 px-4 flex flex-col items-center">
+      {/* Header - added pt-24 to increase top padding */}
+      <header className="w-full pt-24 pb-8 px-4 flex flex-col items-center">
         <div className="text-center mb-2 animate-text-flicker">
           <h1 className="cyber-text text-3xl sm:text-4xl md:text-5xl font-bold mb-1 tracking-widest">
             OxCONFESSIONS
