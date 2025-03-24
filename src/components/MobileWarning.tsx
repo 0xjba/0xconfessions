@@ -15,7 +15,14 @@ const MobileWarning: React.FC<MobileWarningProps> = ({ open }) => {
       <DialogContent className="bg-black multicolor-border-blue-purple text-white max-w-[90%] rounded-md">
         <DialogHeader>
           <DialogTitle className="cyber-text text-xl flex items-center gap-2">
-            <AlertCircle className="h-5 w-5 text-cyber-green" />
+            <div className="relative h-5 w-5 flex items-center justify-center">
+              <AlertCircle className="h-5 w-5 absolute" style={{
+                background: 'linear-gradient(135deg, #FF6B00, #FF003C)',
+                borderRadius: '50%',
+                color: 'transparent'
+              }} />
+              <AlertCircle className="h-5 w-5 text-white absolute" strokeWidth={3} />
+            </div>
             MOBILE DETECTED
           </DialogTitle>
           <DialogDescription className="text-gray-300">
@@ -31,9 +38,8 @@ const MobileWarning: React.FC<MobileWarningProps> = ({ open }) => {
           </Alert>
           
           <div className="flex flex-col space-y-3">
-            <Button 
-              variant="outline" 
-              className="border-cyber-green text-cyber-green hover:bg-cyber-green/20 w-full"
+            <button 
+              className="relative py-3 px-4 rounded-full multicolor-border-blue-purple backdrop-blur-md bg-black/70 text-white hover:bg-black/50 transition-all duration-300 w-full flex items-center justify-center"
               onClick={() => {
                 document.body.classList.add('mobile-acknowledged');
                 window.localStorage.setItem('mobileAcknowledged', 'true');
@@ -41,7 +47,7 @@ const MobileWarning: React.FC<MobileWarningProps> = ({ open }) => {
               }}
             >
               Continue Anyway
-            </Button>
+            </button>
           </div>
         </div>
       </DialogContent>
