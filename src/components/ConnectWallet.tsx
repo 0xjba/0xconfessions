@@ -4,12 +4,19 @@ import { useWeb3 } from '../lib/web3';
 import { Network, PlusCircle, ExternalLink } from 'lucide-react';
 
 const ConnectWallet: React.FC = () => {
-  const { connected, account, loading, connectWallet, chainId } = useWeb3();
+  const { connected, account, loading, connectWallet, chainId, refreshConfessions } = useWeb3();
   const [isCorrectNetwork, setIsCorrectNetwork] = useState<boolean>(false);
 
   useEffect(() => {
     setIsCorrectNetwork(chainId === '0x1bb');
   }, [chainId]);
+
+  // Trigger a refresh of confessions when connection status changes
+  useEffect(() => {
+    if (connected && isCorrectNetwork) {
+      refreshConfessions();
+    }
+  }, [connected, isCorrectNetwork, refreshConfessions]);
 
   const addTENNetwork = async () => {
     if (!window.ethereum) return;
