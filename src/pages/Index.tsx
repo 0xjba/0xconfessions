@@ -1,18 +1,37 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ConnectWallet from '../components/ConnectWallet';
 import ConfessionInput from '../components/ConfessionInput';
 import ConfessionsList from '../components/ConfessionsList';
 import AnimatedBackground from '../components/AnimatedBackground';
 import NoiseOverlay from '../components/NoiseOverlay';
+import MobileWarning from '../components/MobileWarning';
+import { useIsMobile } from '../hooks/use-mobile';
 import { useWeb3 } from '../lib/web3';
 import { Twitter } from 'lucide-react';
 
 const Index: React.FC = () => {
   const { connected } = useWeb3();
+  const isMobile = useIsMobile();
+  const [showMobileWarning, setShowMobileWarning] = useState(false);
+  
+  useEffect(() => {
+    if (isMobile) {
+      // Check if the user has already acknowledged the mobile warning
+      const mobileAcknowledged = window.localStorage.getItem('mobileAcknowledged');
+      const bodyHasClass = document.body.classList.contains('mobile-acknowledged');
+      
+      if (!mobileAcknowledged && !bodyHasClass) {
+        setShowMobileWarning(true);
+      }
+    }
+  }, [isMobile]);
 
   return (
     <div className="min-h-screen w-full relative overflow-hidden flex flex-col items-center justify-start">
+      {/* Mobile warning dialog */}
+      <MobileWarning open={showMobileWarning} />
+      
       {/* Animated background with matrix rain effect */}
       <AnimatedBackground />
       
