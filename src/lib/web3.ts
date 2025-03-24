@@ -22,8 +22,6 @@ export const useWeb3 = () => {
   const [provider, setProvider] = useState<any | null>(null);
   const [loading, setLoading] = useState(false);
   const [confessions, setConfessions] = useState<Confession[]>([]);
-  const [isCorrectNetwork, setIsCorrectNetwork] = useState(false);
-  const TEN_CHAIN_ID = '0x1bb'; // 443 in hexadecimal
 
   // Check if wallet is connected
   useEffect(() => {
@@ -35,24 +33,16 @@ export const useWeb3 = () => {
         if (accounts.length > 0) {
           setAccount(accounts[0]);
           setConnected(true);
-          checkChainId();
         } else {
           setAccount(null);
           setConnected(false);
-          setIsCorrectNetwork(false);
         }
-      });
-
-      // Handle chain changes
-      window.ethereum.on('chainChanged', (chainId: string) => {
-        checkChainId();
       });
     }
     
     return () => {
       if (window.ethereum && window.ethereum.removeListener) {
         window.ethereum.removeListener('accountsChanged', () => {});
-        window.ethereum.removeListener('chainChanged', () => {});
       }
     };
   }, []);
@@ -64,18 +54,6 @@ export const useWeb3 = () => {
     }
   }, [contract, connected]);
 
-  const checkChainId = async () => {
-    if (window.ethereum) {
-      try {
-        const chainId = await window.ethereum.request({ method: 'eth_chainId' });
-        setIsCorrectNetwork(chainId === TEN_CHAIN_ID);
-      } catch (error) {
-        console.error("Failed to get chain ID:", error);
-        setIsCorrectNetwork(false);
-      }
-    }
-  };
-
   const checkConnection = async () => {
     if (window.ethereum) {
       try {
@@ -85,7 +63,6 @@ export const useWeb3 = () => {
           setAccount(accounts[0]);
           setConnected(true);
           setupContract();
-          checkChainId();
         }
       } catch (error) {
         console.error("Failed to check connection:", error);
@@ -107,7 +84,6 @@ export const useWeb3 = () => {
         setAccount(accounts[0]);
         setConnected(true);
         setupContract();
-        checkChainId();
         toast.success("Wallet connected successfully!");
       }
     } catch (error: any) {
@@ -208,7 +184,6 @@ export const useWeb3 = () => {
     account,
     loading,
     confessions,
-    isCorrectNetwork,
     connectWallet,
     submitConfession,
     refreshConfessions: fetchConfessions
