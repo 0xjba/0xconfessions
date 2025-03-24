@@ -16,8 +16,8 @@ const MobileWarning: React.FC<MobileWarningProps> = ({ open }) => {
         className="bg-black border border-white text-white max-w-[90%] rounded-md"
         hideCloseButton={true}
       >
-        <DialogHeader>
-          <DialogTitle className="cyber-text text-xl flex items-center gap-2">
+        <DialogHeader className="items-center"> {/* Added items-center to center the header contents */}
+          <DialogTitle className="cyber-text text-xl flex items-center justify-center gap-2"> {/* Added justify-center */}
             <div className="relative h-5 w-5 flex items-center justify-center">
               <AlertCircle className="h-5 w-5 absolute" style={{
                 background: 'linear-gradient(135deg, #FF6B00, #FF003C)',
@@ -28,7 +28,7 @@ const MobileWarning: React.FC<MobileWarningProps> = ({ open }) => {
             </div>
             MOBILE DETECTED
           </DialogTitle>
-          <DialogDescription className="text-gray-300">
+          <DialogDescription className="text-gray-300 text-center"> {/* Added text-center */}
             For the best experience, we recommend using a desktop browser.
           </DialogDescription>
         </DialogHeader>
