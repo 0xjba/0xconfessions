@@ -1,6 +1,8 @@
+
 import React, { useState } from 'react';
 import { Confession } from '../lib/web3';
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { X } from 'lucide-react';
 
 interface ConfessionPillProps {
   confession: Confession;
@@ -21,7 +23,7 @@ const ConfessionPill: React.FC<ConfessionPillProps> = ({ confession, index }) =>
     <>
       {/* Pill that stays as a pill */}
       <div 
-        className="relative transition-all duration-300 bg-cyber-black bg-opacity-80 backdrop-blur-lg cursor-pointer border border-gray-700 rounded-lg p-1.5 flex items-center justify-center"
+        className="relative transition-all duration-300 bg-cyber-black bg-opacity-80 backdrop-blur-lg border border-gray-700 rounded-lg p-1.5 flex items-center justify-center"
         onClick={() => setIsOpen(true)}
       >
         <span className="text-white text-xs text-center">{truncatedText}</span>
@@ -29,7 +31,10 @@ const ConfessionPill: React.FC<ConfessionPillProps> = ({ confession, index }) =>
 
       {/* Dialog for expanded view */}
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="bg-cyber-black bg-opacity-90 backdrop-blur-lg border border-gray-700 max-w-md max-h-[400px] p-0 rounded-md">
+        <DialogContent 
+          className="bg-cyber-black bg-opacity-90 backdrop-blur-lg border border-gray-700 max-w-md max-h-[400px] p-0 rounded-md"
+          closeButtonClassName="multicolor-border-blue-purple rounded-full p-1 hover:bg-opacity-20 transition-all duration-300"
+        >
           <div className="p-4 flex flex-col">
             <div className="mb-3 flex items-center">
               <div className="w-2 h-2 rounded-full bg-white animate-pulse-soft mr-2"></div>
