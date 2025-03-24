@@ -36,8 +36,8 @@ const ConfessionsList: React.FC = () => {
             <div className="cyber-text text-opacity-70">No confessions yet. Be the first to confess.</div>
           </div>
         ) : (
-          // Container for pills in a grid layout - adjusted for smaller pills
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2 p-4">
+          // Adjusted grid with slightly more columns since pills are smaller
+          <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 gap-2 p-4">
             {confessions.map((confession, index) => (
               <ConfessionPill 
                 key={`${confession.id}-${confession.timestamp}`} 

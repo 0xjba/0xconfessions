@@ -13,8 +13,8 @@ const ConfessionPill: React.FC<ConfessionPillProps> = ({ confession, index }) =>
   const [isOpen, setIsOpen] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
   
-  const truncatedText = confession.text.length > 10 
-    ? `${confession.text.substring(0, 10)}...` 
+  const truncatedText = confession.text.length > 6 
+    ? `${confession.text.substring(0, 6)}...` 
     : confession.text;
   
   const timestamp = new Date(confession.timestamp * 1000);
