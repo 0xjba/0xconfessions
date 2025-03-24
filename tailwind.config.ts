@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -111,6 +110,16 @@ export default {
 					'50%': { 
 						transform: 'scale(1.05)',
 						boxShadow: '0 0 15px rgba(255, 255, 255, 0.8)'
+					}
+				},
+				'pulse-grow': {
+					'0%, 100%': { 
+						transform: 'scale(1)',
+						boxShadow: '0 0 8px rgba(255, 255, 255, 0.6)'
+					},
+					'50%': { 
+						transform: 'scale(1.15)',
+						boxShadow: '0 0 20px rgba(255, 255, 255, 0.9)'
 					}
 				},
 				'text-flicker': {
