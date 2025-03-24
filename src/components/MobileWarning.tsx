@@ -12,7 +12,10 @@ interface MobileWarningProps {
 const MobileWarning: React.FC<MobileWarningProps> = ({ open }) => {
   return (
     <Dialog open={open}>
-      <DialogContent className="bg-black multicolor-border-blue-purple text-white max-w-[90%] rounded-md">
+      <DialogContent 
+        className="bg-black multicolor-border-blue-purple text-white max-w-[90%] rounded-md"
+        hideCloseButton={true}
+      >
         <DialogHeader>
           <DialogTitle className="cyber-text text-xl flex items-center gap-2">
             <div className="relative h-5 w-5 flex items-center justify-center">
