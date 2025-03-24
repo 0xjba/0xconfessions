@@ -1,12 +1,30 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useWeb3 } from '../lib/web3';
+import { Network } from 'lucide-react';
 
 const ConnectWallet: React.FC = () => {
-  const { connected, account, loading, connectWallet } = useWeb3();
+  const { connected, account, loading, connectWallet, chainId } = useWeb3();
+  const [isCorrectNetwork, setIsCorrectNetwork] = useState<boolean>(false);
+
+  useEffect(() => {
+    setIsCorrectNetwork(chainId === '0x1bb');
+  }, [chainId]);
 
   return (
-    <div className="fixed top-4 right-4 z-50">
+    <div className="fixed top-4 right-4 z-50 flex gap-3">
+      {/* Network Status Pill */}
+      {connected && (
+        <div className={`multicolor-border-${isCorrectNetwork ? 'teal-green' : 'orange-pink'} rounded-full px-4 py-2 flex items-center justify-center group cursor-pointer bg-cyber-black bg-opacity-80 backdrop-blur-lg`}>
+          <Network className="w-4 h-4 mr-2" />
+          <span className="text-white text-sm">
+            {isCorrectNetwork ? 'TEN Network' : 'Wrong Network'}
+          </span>
+          <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white bg-opacity-10"></div>
+        </div>
+      )}
+
+      {/* Connect Wallet Pill */}
       {connected ? (
         <div className="multicolor-border-purple-blue rounded-full px-4 py-2 flex items-center justify-center group cursor-pointer bg-cyber-black bg-opacity-80 backdrop-blur-lg">
           <div className="w-2 h-2 rounded-full bg-white animate-pulse-soft mr-2"></div>

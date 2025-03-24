@@ -22,6 +22,7 @@ export const useWeb3 = () => {
   const [provider, setProvider] = useState<any | null>(null);
   const [loading, setLoading] = useState(false);
   const [confessions, setConfessions] = useState<Confession[]>([]);
+  const [chainId, setChainId] = useState<string | null>(null);
 
   // Check if wallet is connected
   useEffect(() => {
@@ -33,26 +34,49 @@ export const useWeb3 = () => {
         if (accounts.length > 0) {
           setAccount(accounts[0]);
           setConnected(true);
+          checkChainId();
         } else {
           setAccount(null);
           setConnected(false);
         }
+      });
+
+      // Handle chain changes
+      window.ethereum.on('chainChanged', (newChainId: string) => {
+        setChainId(newChainId);
+        checkConnection(); // Reconnect on chain change
       });
     }
     
     return () => {
       if (window.ethereum && window.ethereum.removeListener) {
         window.ethereum.removeListener('accountsChanged', () => {});
+        window.ethereum.removeListener('chainChanged', () => {});
       }
     };
   }, []);
 
   // Fetch confessions when contract is available
   useEffect(() => {
-    if (contract && connected) {
+    if (contract && connected && chainId === '0x1bb') {
       fetchConfessions();
     }
-  }, [contract, connected]);
+  }, [contract, connected, chainId]);
+
+  const checkChainId = async () => {
+    if (window.ethereum) {
+      try {
+        const currentChain = await window.ethereum.request({ method: 'eth_chainId' });
+        console.log(currentChain + ' <- currentChain');
+        setChainId(currentChain);
+        return currentChain;
+      } catch (error) {
+        console.error("Failed to get chain ID:", error);
+        return null;
+      }
+    }
+    return null;
+  };
 
   const checkConnection = async () => {
     if (window.ethereum) {
@@ -62,6 +86,10 @@ export const useWeb3 = () => {
         if (accounts.length > 0) {
           setAccount(accounts[0]);
           setConnected(true);
+          const currentChain = await checkChainId();
+          if (currentChain && currentChain !== '0x1bb') {
+            toast.warning("You're not connected to TEN network (Chain ID: 443)");
+          }
           setupContract();
         }
       } catch (error) {
@@ -83,6 +111,10 @@ export const useWeb3 = () => {
       if (accounts.length > 0) {
         setAccount(accounts[0]);
         setConnected(true);
+        const currentChain = await checkChainId();
+        if (currentChain && currentChain !== '0x1bb') {
+          toast.warning("You're not connected to TEN network (Chain ID: 443)");
+        }
         setupContract();
         toast.success("Wallet connected successfully!");
       }
@@ -116,6 +148,10 @@ export const useWeb3 = () => {
 
   const fetchConfessions = async () => {
     if (!contract) return;
+    if (chainId !== '0x1bb') {
+      setConfessions([]);
+      return;
+    }
 
     try {
       setLoading(true);
@@ -159,6 +195,11 @@ export const useWeb3 = () => {
       return;
     }
 
+    if (chainId !== '0x1bb') {
+      toast.error("Please connect to TEN network (Chain ID: 443)");
+      return;
+    }
+
     try {
       setLoading(true);
       const tx = await contract.confess(text);
@@ -184,6 +225,7 @@ export const useWeb3 = () => {
     account,
     loading,
     confessions,
+    chainId,
     connectWallet,
     submitConfession,
     refreshConfessions: fetchConfessions
