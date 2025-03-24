@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { CONFESSIONS_ABI, CONFESSIONS_CONTRACT_ADDRESS } from './contractABI';
 import { toast } from "sonner";
@@ -148,7 +147,13 @@ export const useWeb3 = () => {
   };
 
   const submitConfession = async (text: string) => {
-    if (!contract || !connected) {
+    if (!contract) {
+      toast.error("Contract not initialized");
+      return;
+    }
+
+    if (!connected) {
+      // Only show this message if the wallet is truly not connected
       toast.error("Please connect your wallet first");
       return;
     }

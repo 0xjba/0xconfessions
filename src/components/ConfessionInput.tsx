@@ -11,11 +11,6 @@ const ConfessionInput: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!connected) {
-      toast.error("Please connect your wallet first");
-      return;
-    }
-    
     if (!confession.trim()) {
       toast.error("Confession cannot be empty");
       return;
