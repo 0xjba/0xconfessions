@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -149,7 +148,7 @@ export default {
 				'float': 'float 6s ease-in-out infinite',
 				'pulse-soft': 'pulse-soft 3s ease-in-out infinite',
 				'glow': 'glow 3s ease-in-out infinite',
-				'glow-pulsate': 'glow-pulsate 4s ease-in-out infinite', // Slowed down from 2s to 4s
+				'glow-pulsate': 'glow-pulsate 7s ease-in-out infinite',
 				'text-flicker': 'text-flicker 3s linear infinite',
 				'fade-in': 'fade-in 0.5s ease-out',
 				'slide-up': 'slide-up 0.5s ease-out',
