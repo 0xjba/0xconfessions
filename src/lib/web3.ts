@@ -1,5 +1,4 @@
-
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { CONFESSIONS_ABI } from './contractABI';
 import { CONFESSIONS_CONTRACT_ADDRESS } from '../config/contracts';
 import { toast } from "sonner";
@@ -49,13 +48,7 @@ export const useWeb3 = () => {
         if (accounts.length > 0) {
           setAccount(accounts[0]);
           setConnected(true);
-          checkChainId().then(id => {
-            if (id === '0x1bb') {
-              setupContract().then(() => {
-                fetchConfessions();
-              });
-            }
-          });
+          checkChainId();
         } else {
           setAccount(null);
           setConnected(false);
@@ -71,12 +64,10 @@ export const useWeb3 = () => {
   }, []);
 
   useEffect(() => {
-    if (connected && chainId === '0x1bb') {
-      setupContract().then(() => {
-        fetchConfessions();
-      });
+    if (contract && connected && chainId === '0x1bb') {
+      fetchConfessions();
     }
-  }, [connected, chainId]);
+  }, [contract, connected, chainId]);
 
   const checkChainId = async () => {
     if (window.ethereum) {
@@ -100,10 +91,8 @@ export const useWeb3 = () => {
         if (accounts.length > 0) {
           setAccount(accounts[0]);
           setConnected(true);
-          const currentChain = await checkChainId();
-          if (currentChain === '0x1bb') {
-            await setupContract();
-          }
+          await checkChainId();
+          setupContract();
         }
       } catch (error) {
         console.error("Failed to check connection:", error);
@@ -124,12 +113,8 @@ export const useWeb3 = () => {
       if (accounts.length > 0) {
         setAccount(accounts[0]);
         setConnected(true);
-        const currentChain = await checkChainId();
-        if (currentChain === '0x1bb') {
-          await setupContract();
-          // Immediately fetch confessions when wallet connects to correct network
-          await fetchConfessions();
-        }
+        await checkChainId();
+        setupContract();
         toast.success("Wallet connected successfully!");
       }
     } catch (error: any) {
@@ -142,14 +127,8 @@ export const useWeb3 = () => {
 
   const setupContract = async () => {
     if (!window.ethereum) return;
-    
+
     try {
-      // Make sure we have a valid contract address
-      if (!CONFESSIONS_CONTRACT_ADDRESS) {
-        console.error("Contract address is not defined");
-        return;
-      }
-      
       const ethersProvider = new (await import('ethers')).BrowserProvider(window.ethereum);
       const signer = await ethersProvider.getSigner();
       const contractInstance = new (await import('ethers')).Contract(
@@ -160,32 +139,21 @@ export const useWeb3 = () => {
       
       setProvider(ethersProvider);
       setContract(contractInstance);
-      return contractInstance;
     } catch (error) {
       console.error("Error setting up contract:", error);
     }
   };
 
-  const fetchConfessions = useCallback(async () => {
-    // Don't proceed if we're not on TEN Network
+  const fetchConfessions = async () => {
+    if (!contract) return;
     if (chainId !== '0x1bb') {
       setConfessions([]);
       return;
     }
 
-    // Make sure we have a valid contract instance
-    let contractInstance = contract;
-    if (!contractInstance) {
-      contractInstance = await setupContract();
-      if (!contractInstance) {
-        console.error("Cannot fetch confessions: Contract not initialized");
-        return;
-      }
-    }
-
     try {
       setLoading(true);
-      const count = await contractInstance.getConfessionCount();
+      const count = await contract.getConfessionCount();
       
       const fetchCount = Math.min(20, Number(count));
       if (fetchCount === 0) {
@@ -193,7 +161,7 @@ export const useWeb3 = () => {
         return;
       }
 
-      const result = await contractInstance.getRecentConfessions(fetchCount);
+      const result = await contract.getRecentConfessions(fetchCount);
       
       const formattedConfessions: Confession[] = result.map((conf: any, index: number) => ({
         id: Number(count) - index - 1,
@@ -208,9 +176,14 @@ export const useWeb3 = () => {
     } finally {
       setLoading(false);
     }
-  }, [contract, chainId]);
+  };
 
   const submitConfession = async (text: string) => {
+    if (!contract) {
+      toast.error("Contract not initialized");
+      return;
+    }
+
     if (!connected) {
       toast.error("Please connect your wallet first");
       return;
@@ -221,26 +194,15 @@ export const useWeb3 = () => {
       return;
     }
 
-    // Make sure we have a valid contract instance
-    let contractInstance = contract;
-    if (!contractInstance) {
-      contractInstance = await setupContract();
-      if (!contractInstance) {
-        toast.error("Contract not initialized");
-        return;
-      }
-    }
-
     try {
       setLoading(true);
-      const tx = await contractInstance.confess(text);
+      const tx = await contract.confess(text);
       toast.success("Confession submitted! Waiting for confirmation...");
       
       await tx.wait();
       
       toast.success("Confession confirmed on the blockchain!");
       
-      // Immediately fetch fresh confessions after submitting
       await fetchConfessions();
     } catch (error: any) {
       console.error("Error submitting confession:", error);
@@ -257,7 +219,7 @@ export const useWeb3 = () => {
     confessions,
     chainId,
     connectWallet,
-    submitConfession,
+    submitConfession: submitConfession,
     refreshConfessions: fetchConfessions
   };
 };
