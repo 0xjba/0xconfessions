@@ -1,3 +1,4 @@
+
 export const CONFESSIONS_ABI = [
   {
     "inputs": [
@@ -149,6 +150,3 @@ export const CONFESSIONS_ABI = [
     "type": "function"
   }
 ];
-
-// Updated with the actual deployed contract address
-export const CONFESSIONS_CONTRACT_ADDRESS = "0xEfF03873B5E8656efF58A2ECcb25aD766a97015f";

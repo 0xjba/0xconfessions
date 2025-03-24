@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { CONFESSIONS_ABI, CONFESSIONS_CONTRACT_ADDRESS } from './contractABI';
+import { CONFESSIONS_ABI } from './contractABI';
+import { CONFESSIONS_CONTRACT_ADDRESS } from '../config/contracts';
 import { toast } from "sonner";
 
 export interface Confession {
@@ -23,18 +24,14 @@ export const useWeb3 = () => {
   const [confessions, setConfessions] = useState<Confession[]>([]);
   const [chainId, setChainId] = useState<string | null>(null);
 
-  // Handle chain changes
   useEffect(() => {
     if (window.ethereum) {
-      // Set up the chainChanged event listener
       const handleChainChanged = (_chainId: string) => {
-        // We recommend reloading the page, unless you must do otherwise
         window.location.reload();
       };
       
       window.ethereum.on('chainChanged', handleChainChanged);
       
-      // Clean up the event listener
       return () => {
         if (window.ethereum && window.ethereum.removeListener) {
           window.ethereum.removeListener('chainChanged', handleChainChanged);
@@ -43,11 +40,9 @@ export const useWeb3 = () => {
     }
   }, []);
 
-  // Check if wallet is connected
   useEffect(() => {
     checkConnection();
     
-    // Handle account changes
     if (window.ethereum) {
       window.ethereum.on('accountsChanged', (accounts: string[]) => {
         if (accounts.length > 0) {
@@ -68,7 +63,6 @@ export const useWeb3 = () => {
     };
   }, []);
 
-  // Fetch confessions when contract is available
   useEffect(() => {
     if (contract && connected && chainId === '0x1bb') {
       fetchConfessions();
@@ -93,7 +87,6 @@ export const useWeb3 = () => {
   const checkConnection = async () => {
     if (window.ethereum) {
       try {
-        // Check if already connected
         const accounts = await window.ethereum.request({ method: 'eth_accounts' });
         if (accounts.length > 0) {
           setAccount(accounts[0]);
@@ -136,7 +129,6 @@ export const useWeb3 = () => {
     if (!window.ethereum) return;
 
     try {
-      // This is a simplified version. In a real app, you might use ethers.js or web3.js
       const ethersProvider = new (await import('ethers')).BrowserProvider(window.ethereum);
       const signer = await ethersProvider.getSigner();
       const contractInstance = new (await import('ethers')).Contract(
@@ -161,10 +153,8 @@ export const useWeb3 = () => {
 
     try {
       setLoading(true);
-      // Get total count
       const count = await contract.getConfessionCount();
       
-      // Get recent confessions (up to 20)
       const fetchCount = Math.min(20, Number(count));
       if (fetchCount === 0) {
         setConfessions([]);
@@ -173,11 +163,10 @@ export const useWeb3 = () => {
 
       const result = await contract.getRecentConfessions(fetchCount);
       
-      // Convert to our format - ensure BigInt values are converted to Number
       const formattedConfessions: Confession[] = result.map((conf: any, index: number) => ({
-        id: Number(count) - index - 1, // Convert BigInt to Number
+        id: Number(count) - index - 1,
         text: conf.text,
-        timestamp: Number(conf.timestamp) // Convert BigInt to Number
+        timestamp: Number(conf.timestamp)
       }));
 
       setConfessions(formattedConfessions);
@@ -196,7 +185,6 @@ export const useWeb3 = () => {
     }
 
     if (!connected) {
-      // Only show this message if the wallet is truly not connected
       toast.error("Please connect your wallet first");
       return;
     }
@@ -211,12 +199,10 @@ export const useWeb3 = () => {
       const tx = await contract.confess(text);
       toast.success("Confession submitted! Waiting for confirmation...");
       
-      // Wait for transaction confirmation
       await tx.wait();
       
       toast.success("Confession confirmed on the blockchain!");
       
-      // Refresh the list
       await fetchConfessions();
     } catch (error: any) {
       console.error("Error submitting confession:", error);
