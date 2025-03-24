@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { CONFESSIONS_ABI, CONFESSIONS_CONTRACT_ADDRESS } from './contractABI';
 import { toast } from "sonner";
@@ -99,10 +98,7 @@ export const useWeb3 = () => {
         if (accounts.length > 0) {
           setAccount(accounts[0]);
           setConnected(true);
-          const currentChain = await checkChainId();
-          if (currentChain && currentChain !== '0x1bb') {
-            toast.warning("You're not connected to TEN network (Chain ID: 443)");
-          }
+          await checkChainId();
           setupContract();
         }
       } catch (error) {
@@ -124,10 +120,7 @@ export const useWeb3 = () => {
       if (accounts.length > 0) {
         setAccount(accounts[0]);
         setConnected(true);
-        const currentChain = await checkChainId();
-        if (currentChain && currentChain !== '0x1bb') {
-          toast.warning("You're not connected to TEN network (Chain ID: 443)");
-        }
+        await checkChainId();
         setupContract();
         toast.success("Wallet connected successfully!");
       }
@@ -240,7 +233,7 @@ export const useWeb3 = () => {
     confessions,
     chainId,
     connectWallet,
-    submitConfession,
+    submitConfession: submitConfession,
     refreshConfessions: fetchConfessions
   };
 };

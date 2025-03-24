@@ -34,11 +34,6 @@ const ConnectWallet: React.FC = () => {
     }
   };
 
-  const openTENWebsite = () => {
-    console.log("Opening TEN website");
-    window.open('https://testnet.ten.xyz/', '_blank', 'noopener,noreferrer');
-  };
-
   return (
     <div className="fixed top-4 right-4 z-50 flex gap-3">
       {/* Network Status Pill */}
@@ -54,14 +49,15 @@ const ConnectWallet: React.FC = () => {
             )}
           </span>
           {!isCorrectNetwork && (
-            <button 
-              onClick={openTENWebsite}
+            <a 
+              href="https://testnet.ten.xyz/"
+              target="_blank"
+              rel="noopener noreferrer"
               className="ml-2 flex items-center text-xs text-white bg-gradient-to-r from-orange-500 to-pink-500 px-2 py-1 rounded-full"
-              type="button"
             >
               <ExternalLink className="w-3 h-3 mr-1" />
               Add TEN
-            </button>
+            </a>
           )}
           <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white bg-opacity-10"></div>
         </div>
