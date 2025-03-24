@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Confession } from '../lib/web3';
 import { Dialog, DialogContent } from "@/components/ui/dialog";
@@ -10,6 +11,7 @@ interface ConfessionPillProps {
 
 const ConfessionPill: React.FC<ConfessionPillProps> = ({ confession, index }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
   
   const truncatedText = confession.text.length > 10 
     ? `${confession.text.substring(0, 10)}...` 
@@ -22,10 +24,12 @@ const ConfessionPill: React.FC<ConfessionPillProps> = ({ confession, index }) =>
     <>
       {/* Pill that stays as a pill */}
       <div 
-        className="relative transition-all duration-300 bg-cyber-black bg-opacity-80 backdrop-blur-lg border border-gray-700 rounded-lg p-1.5 flex items-center justify-center cursor-pointer"
+        className={`relative transition-all duration-300 bg-cyber-black bg-opacity-80 backdrop-blur-lg border ${isHovering ? 'border-white shadow-[0_0_15px_rgba(255,255,255,0.6)]' : 'border-gray-700'} rounded-lg p-1.5 flex items-center justify-center cursor-pointer ${isHovering ? 'animate-pulse-soft' : ''}`}
         onClick={() => setIsOpen(true)}
+        onMouseEnter={() => setIsHovering(true)}
+        onMouseLeave={() => setIsHovering(false)}
       >
-        <span className="text-white text-xs text-center">{truncatedText}</span>
+        <span className={`text-white text-xs text-center ${isHovering ? 'text-opacity-100' : 'text-opacity-80'}`}>{truncatedText}</span>
       </div>
 
       {/* Dialog for expanded view */}
