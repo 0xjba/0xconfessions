@@ -1,4 +1,3 @@
-
 export const CONFESSIONS_ABI = [
   {
     "inputs": [
@@ -151,6 +150,5 @@ export const CONFESSIONS_ABI = [
   }
 ];
 
-// This is a placeholder for a testnet contract address
-// Replace with your actual deployed contract address
-export const CONFESSIONS_CONTRACT_ADDRESS = "0x0000000000000000000000000000000000000000";
+// Updated with the actual deployed contract address
+export const CONFESSIONS_CONTRACT_ADDRESS = "0xEfF03873B5E8656efF58A2ECcb25aD766a97015f";
