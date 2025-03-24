@@ -77,9 +77,9 @@ const ConfessionInput: React.FC = () => {
             )}
           </button>
           
-          {/* Character counter */}
+          {/* Character counter - made more dim */}
           <div className="absolute bottom-1 left-6 flex items-center">
-            <span className={`text-xs ${confession.length > maxLength ? 'text-red-500' : 'text-white text-opacity-50'}`}>
+            <span className={`text-xs ${confession.length > maxLength ? 'text-red-500' : 'text-white text-opacity-30'}`}>
               {confession.length}/{maxLength}
             </span>
           </div>
