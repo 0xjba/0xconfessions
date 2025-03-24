@@ -51,7 +51,7 @@ const ConfessionInput: React.FC = () => {
         
         {/* Input pill */}
         <div 
-          className={`w-full relative flex items-center group overflow-hidden mb-2 rounded-full transition-all duration-300 bg-cyber-black bg-opacity-80 backdrop-blur-lg border border-white/10 ${isHovering ? 'animate-glow-pulsate' : ''}`}
+          className={`w-full relative multicolor-border-blue-purple flex items-center group overflow-hidden mb-2 rounded-full transition-all duration-300 bg-cyber-black bg-opacity-80 backdrop-blur-lg ${isHovering ? 'animate-glow-pulsate' : ''}`}
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
         >
