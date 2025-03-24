@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useWeb3 } from '../lib/web3';
 import { toast } from "sonner";
 
@@ -7,6 +7,18 @@ const ConfessionInput: React.FC = () => {
   const [confession, setConfession] = useState('');
   const { connected, loading, submitConfession } = useWeb3();
   const maxLength = 280;
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [isHovering, setIsHovering] = useState(false);
+
+  useEffect(() => {
+    if (isHovering && audioRef.current) {
+      audioRef.current.volume = 0.2;
+      audioRef.current.play();
+    } else if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+  }, [isHovering]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,8 +43,18 @@ const ConfessionInput: React.FC = () => {
         onSubmit={handleSubmit}
         className="relative w-full flex flex-col items-center"
       >
+        <audio 
+          ref={audioRef} 
+          src="/electric-hum.mp3" 
+          loop 
+        />
+        
         {/* Input pill */}
-        <div className="w-full relative multicolor-border-blue-purple flex items-center group overflow-hidden mb-2 rounded-full transition-all duration-300 bg-cyber-black bg-opacity-80 backdrop-blur-lg">
+        <div 
+          className="w-full relative multicolor-border-blue-purple flex items-center group overflow-hidden mb-2 rounded-full transition-all duration-300 bg-cyber-black bg-opacity-80 backdrop-blur-lg"
+          onMouseEnter={() => setIsHovering(true)}
+          onMouseLeave={() => setIsHovering(false)}
+        >
           <input
             type="text"
             value={confession}
