@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Confession } from '../lib/web3';
 import { Dialog, DialogContent } from "@/components/ui/dialog";
@@ -32,17 +31,9 @@ const ConfessionPill: React.FC<ConfessionPillProps> = ({ confession, index }) =>
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent className="bg-cyber-black bg-opacity-90 backdrop-blur-lg border border-gray-700 max-w-md max-h-[400px] p-0 rounded-md">
           <div className="p-4 flex flex-col">
-            <div className="mb-3 flex items-center justify-between">
-              <div className="flex items-center">
-                <div className="w-2 h-2 rounded-full bg-white animate-pulse-soft mr-2"></div>
-                <span className="text-xs text-white text-opacity-70">{timeAgo}</span>
-              </div>
-              <div 
-                className="text-white cursor-pointer px-3 text-sm"
-                onClick={() => setIsOpen(false)}
-              >
-                X
-              </div>
+            <div className="mb-3 flex items-center">
+              <div className="w-2 h-2 rounded-full bg-white animate-pulse-soft mr-2"></div>
+              <span className="text-xs text-white text-opacity-70">{timeAgo}</span>
             </div>
             <div className="overflow-y-auto max-h-[280px] scrollbar-none">
               <p className="text-white text-sm mb-4 text-left">{confession.text}</p>
