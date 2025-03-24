@@ -48,17 +48,17 @@
   }
 
   ::selection {
-    @apply bg-cyber-green text-cyber-black;
+    @apply bg-white text-cyber-black;
   }
 }
 
 @layer components {
   .cyber-border {
-    @apply border border-cyber-green shadow-[0_0_10px_rgba(0,255,65,0.5)];
+    @apply border border-white shadow-[0_0_10px_rgba(255,255,255,0.5)];
   }
   
   .cyber-text {
-    @apply text-cyber-green tracking-wider;
+    @apply text-white tracking-wider;
   }
   
   .cyber-bg {
@@ -69,10 +69,6 @@
     @apply relative px-6 py-3 rounded-full cyber-border bg-cyber-black bg-opacity-80 backdrop-blur transition-all duration-300;
   }
   
-  .cyber-gradient {
-    @apply bg-gradient-to-r from-cyber-green to-cyber-blue;
-  }
-  
   .terminal-text {
     @apply font-mono tracking-wide;
   }
@@ -80,8 +76,41 @@
   .grid-lines {
     background-size: 50px 50px;
     background-image:
-      linear-gradient(to right, rgba(0, 255, 65, 0.05) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(0, 255, 65, 0.05) 1px, transparent 1px);
+      linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  }
+
+  /* Multicolored border styles with glow effects */
+  .multicolor-border-purple-blue {
+    @apply relative border border-transparent;
+    background: 
+      linear-gradient(to right, #0A0A0A, #0A0A0A) padding-box,
+      linear-gradient(to right, #9D00FF, #00C3FF) border-box;
+    box-shadow: 0 0 15px rgba(157, 0, 255, 0.5), 0 0 15px rgba(0, 195, 255, 0.5);
+  }
+
+  .multicolor-border-orange-pink {
+    @apply relative border border-transparent;
+    background: 
+      linear-gradient(to right, #0A0A0A, #0A0A0A) padding-box,
+      linear-gradient(to right, #FF6B00, #FF003C) border-box;
+    box-shadow: 0 0 15px rgba(255, 107, 0, 0.5), 0 0 15px rgba(255, 0, 60, 0.5);
+  }
+
+  .multicolor-border-teal-green {
+    @apply relative border border-transparent;
+    background: 
+      linear-gradient(to right, #0A0A0A, #0A0A0A) padding-box,
+      linear-gradient(to right, #00FFD1, #00FF41) border-box;
+    box-shadow: 0 0 15px rgba(0, 255, 209, 0.5), 0 0 15px rgba(0, 255, 65, 0.5);
+  }
+
+  .multicolor-border-blue-purple {
+    @apply relative border border-transparent;
+    background: 
+      linear-gradient(to right, #0A0A0A, #0A0A0A) padding-box,
+      linear-gradient(to right, #00C3FF, #D946EF) border-box;
+    box-shadow: 0 0 15px rgba(0, 195, 255, 0.5), 0 0 15px rgba(217, 70, 239, 0.5);
   }
 }
 
@@ -95,15 +124,24 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-cyber-green bg-opacity-50 rounded-full;
+  @apply bg-white bg-opacity-30 rounded-full;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-cyber-green bg-opacity-80;
+  @apply bg-white bg-opacity-50;
 }
 
 input::placeholder {
-  @apply text-cyber-green text-opacity-40;
+  @apply text-white text-opacity-40;
+}
+
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
 }
 
 .glitch-overlay::before {

@@ -16,7 +16,7 @@ const ConfessionsList: React.FC = () => {
   }, [refreshConfessions]);
 
   return (
-    <div className="relative w-full h-[60vh] overflow-hidden">
+    <div className="relative w-full h-[60vh] overflow-y-auto scrollbar-none">
       {loading && confessions.length === 0 ? (
         <div className="w-full h-full flex items-center justify-center">
           <div className="cyber-text animate-pulse-soft">Loading confessions...</div>
@@ -26,8 +26,8 @@ const ConfessionsList: React.FC = () => {
           <div className="cyber-text text-opacity-70">No confessions yet. Be the first to confess.</div>
         </div>
       ) : (
-        // Container for floating pills
-        <div className="relative w-full h-full">
+        // Container for pills in a grid layout
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4">
           {confessions.map((confession, index) => (
             <ConfessionPill 
               key={`${confession.id}-${confession.timestamp}`} 

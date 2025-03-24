@@ -37,39 +37,39 @@ const ConfessionInput: React.FC = () => {
         className="relative w-full flex flex-col items-center"
       >
         {/* Input pill */}
-        <div className="w-full relative cyber-pill flex items-center group overflow-hidden mb-2 hover:shadow-[0_0_15px_rgba(0,255,65,0.7)] transition-all duration-300">
+        <div className="w-full relative multicolor-border-blue-purple flex items-center group overflow-hidden mb-2 rounded-full transition-all duration-300 bg-cyber-black bg-opacity-80 backdrop-blur-lg">
           <input
             type="text"
             value={confession}
             onChange={(e) => setConfession(e.target.value)}
             placeholder="TYPE YOUR CONFESSION HERE..."
-            className="w-full bg-transparent border-none outline-none cyber-text py-3 px-4 text-base sm:text-lg"
+            className="w-full bg-transparent border-none outline-none text-white py-3 px-6 text-base sm:text-lg"
             maxLength={maxLength}
             disabled={loading}
           />
           
           <button
             type="submit"
-            className="absolute right-2 cyber-pill px-4 py-1 bg-cyber-black hover:bg-cyber-darkgray flex items-center justify-center disabled:opacity-50 transition-all duration-200"
+            className="absolute right-2 rounded-full px-4 py-1 bg-cyber-black hover:bg-cyber-darkgray flex items-center justify-center disabled:opacity-50 transition-all duration-200 border border-white/10"
             disabled={loading || !connected || !confession.trim()}
           >
             {loading ? (
-              <div className="w-4 h-4 border-2 border-cyber-green border-t-transparent rounded-full animate-spin"></div>
+              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
             ) : (
-              <span className="cyber-text text-sm">CONFESS</span>
+              <span className="text-white text-sm">CONFESS</span>
             )}
           </button>
           
           {/* Character counter */}
-          <div className="absolute bottom-1 left-4 flex items-center">
-            <span className={`text-xs ${confession.length > maxLength ? 'text-cyber-red' : 'text-cyber-green text-opacity-50'}`}>
+          <div className="absolute bottom-1 left-6 flex items-center">
+            <span className={`text-xs ${confession.length > maxLength ? 'text-red-500' : 'text-white text-opacity-50'}`}>
               {confession.length}/{maxLength}
             </span>
           </div>
         </div>
         
         {/* Status text */}
-        <div className={`text-xs cyber-text ${connected ? 'text-opacity-50' : 'text-opacity-100 animate-pulse-soft'}`}>
+        <div className={`text-xs text-white ${connected ? 'text-opacity-50' : 'text-opacity-100 animate-pulse-soft'}`}>
           {connected 
             ? 'BRUTALLY HONEST. COMPLETELY ANONYMOUS.' 
             : 'CONNECT WALLET TO SUBMIT CONFESSIONS'}

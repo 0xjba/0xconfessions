@@ -15,50 +15,36 @@ const ConfessionPill: React.FC<ConfessionPillProps> = ({ confession, index }) =>
   
   const timestamp = new Date(confession.timestamp * 1000);
   const timeAgo = getTimeAgo(timestamp);
-  
-  // Apply different animations and positions for a floating effect
-  const getRandomStyles = () => {
-    const directions = ['float', 'pulse-soft', 'text-flicker'];
-    const animation = directions[index % directions.length];
+
+  // Apply different multicolor borders based on index
+  const getBorderClass = () => {
+    const borderClasses = [
+      'multicolor-border-purple-blue',
+      'multicolor-border-orange-pink',
+      'multicolor-border-teal-green',
+      'multicolor-border-blue-purple'
+    ];
     
-    const delay = (index * 0.3) % 2;
-    const duration = 3 + (index % 5);
-    
-    // For x/y position within viewport
-    const xPosition = 20 + (index % 3) * 15;
-    const yPosition = 10 + (index % 4) * 5;
-    
-    return {
-      animationDelay: `${delay}s`,
-      animationDuration: `${duration}s`,
-      left: `${xPosition}%`,
-      top: expanded ? undefined : `${yPosition}%`,
-      transform: expanded ? undefined : `translateX(-${xPosition}%)`,
-      animation: expanded ? undefined : `${animation} ${duration}s ease-in-out infinite`,
-      zIndex: expanded ? 20 : 10
-    };
+    return borderClasses[index % borderClasses.length];
   };
 
   return (
     <div 
-      className={`cyber-pill cursor-pointer transition-all duration-500 ${
-        expanded 
-          ? 'fixed inset-0 w-full sm:w-3/4 lg:w-1/2 xl:w-2/5 h-fit mx-auto my-20 animate-expand' 
-          : 'absolute p-2 transform'
+      className={`relative transition-all duration-500 bg-cyber-black bg-opacity-80 backdrop-blur-lg rounded-lg cursor-pointer ${getBorderClass()} ${
+        expanded ? 'fixed inset-0 w-full sm:w-3/4 lg:w-1/2 xl:w-2/5 h-fit mx-auto my-20 animate-expand z-50' : ''
       }`}
-      style={getRandomStyles()}
       onClick={() => setExpanded(!expanded)}
     >
       {expanded ? (
         // Expanded view
-        <div className="p-4 flex flex-col">
+        <div className="p-6 flex flex-col">
           <div className="mb-4 flex items-center justify-between">
             <div className="flex items-center">
-              <div className="w-2 h-2 rounded-full bg-cyber-green animate-pulse-soft mr-2"></div>
-              <span className="cyber-text text-xs text-cyber-green text-opacity-70">{timeAgo}</span>
+              <div className="w-2 h-2 rounded-full bg-white animate-pulse-soft mr-2"></div>
+              <span className="text-xs text-white text-opacity-70">{timeAgo}</span>
             </div>
             <div 
-              className="cyber-text cursor-pointer px-3 text-sm"
+              className="text-white cursor-pointer px-3 text-sm"
               onClick={(e) => {
                 e.stopPropagation();
                 setExpanded(false);
@@ -67,22 +53,22 @@ const ConfessionPill: React.FC<ConfessionPillProps> = ({ confession, index }) =>
               X
             </div>
           </div>
-          <p className="cyber-text text-base sm:text-lg mb-4 text-left">{confession.text}</p>
-          <div className="text-xs text-cyber-green text-opacity-50 text-right">
+          <p className="text-white text-base sm:text-lg mb-4 text-left">{confession.text}</p>
+          <div className="text-xs text-white text-opacity-50 text-right">
             CONFESSION #{confession.id}
           </div>
         </div>
       ) : (
         // Collapsed view (pill)
-        <div className="flex items-center justify-center">
-          <span className="cyber-text text-sm whitespace-nowrap">{truncatedText}</span>
+        <div className="p-4">
+          <span className="text-white text-sm">{truncatedText}</span>
         </div>
       )}
 
       {/* Click anywhere outside to close */}
       {expanded && (
         <div 
-          className="fixed inset-0 bg-cyber-black bg-opacity-50 backdrop-blur-sm z-10"
+          className="fixed inset-0 bg-cyber-black bg-opacity-50 backdrop-blur-sm"
           onClick={(e) => {
             e.stopPropagation();
             setExpanded(false);
