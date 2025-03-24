@@ -112,6 +112,49 @@
       linear-gradient(to right, #00C3FF, #D946EF) border-box;
     box-shadow: 0 0 15px rgba(0, 195, 255, 0.5), 0 0 15px rgba(217, 70, 239, 0.5);
   }
+  
+  /* Noise overlay for old TV effect */
+  .noise {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    animation: noise 0.2s infinite alternate-reverse;
+  }
+
+  @keyframes noise {
+    0% {
+      transform: translate(0, 0);
+    }
+    10% {
+      transform: translate(-1px, 1px);
+    }
+    20% {
+      transform: translate(1px, 1px);
+    }
+    30% {
+      transform: translate(-1px, -1px);
+    }
+    40% {
+      transform: translate(1px, 0);
+    }
+    50% {
+      transform: translate(-1px, 1px);
+    }
+    60% {
+      transform: translate(-1px, 1px);
+    }
+    70% {
+      transform: translate(1px, -1px);
+    }
+    80% {
+      transform: translate(-1px, -1px);
+    }
+    90% {
+      transform: translate(1px, 1px);
+    }
+    100% {
+      transform: translate(0, 0);
+    }
+  }
 }
 
 /* Overrides and custom elements */

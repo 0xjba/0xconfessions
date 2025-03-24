@@ -4,6 +4,7 @@ import ConnectWallet from '../components/ConnectWallet';
 import ConfessionInput from '../components/ConfessionInput';
 import ConfessionsList from '../components/ConfessionsList';
 import AnimatedBackground from '../components/AnimatedBackground';
+import NoiseOverlay from '../components/NoiseOverlay';
 import { useWeb3 } from '../lib/web3';
 import { Twitter } from 'lucide-react';
 
@@ -14,6 +15,9 @@ const Index: React.FC = () => {
     <div className="min-h-screen w-full relative overflow-hidden flex flex-col items-center justify-start">
       {/* Animated background with matrix rain effect */}
       <AnimatedBackground />
+      
+      {/* TV noise overlay */}
+      <NoiseOverlay />
       
       {/* Connect wallet button */}
       <ConnectWallet />
