@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Confession } from '../lib/web3';
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { X } from 'lucide-react';
 
 interface ConfessionPillProps {
   confession: Confession;
@@ -23,7 +24,7 @@ const ConfessionPill: React.FC<ConfessionPillProps> = ({ confession, index }) =>
     <>
       {/* Pill that stays as a pill */}
       <div 
-        className={`relative transition-all duration-300 bg-cyber-black bg-opacity-80 backdrop-blur-lg border ${isHovering ? 'border-white animate-glow-pulse' : 'border-gray-700'} rounded-lg p-1.5 flex items-center justify-center cursor-pointer`}
+        className={`relative transition-all duration-300 bg-cyber-black bg-opacity-80 backdrop-blur-lg border ${isHovering ? 'border-white animate-[glow-size_2s_ease-in-out_infinite]' : 'border-gray-700'} rounded-lg p-1.5 flex items-center justify-center cursor-pointer`}
         onClick={() => setIsOpen(true)}
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
