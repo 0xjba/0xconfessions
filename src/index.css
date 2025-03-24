@@ -112,33 +112,6 @@
       linear-gradient(to right, #00C3FF, #D946EF) border-box;
     box-shadow: 0 0 15px rgba(0, 195, 255, 0.5), 0 0 15px rgba(217, 70, 239, 0.5);
   }
-
-  /* Glitch effect classes */
-  .glitch-effect {
-    position: relative;
-    animation: glitch 0.5s infinite;
-  }
-
-  @keyframes glitch {
-    0% {
-      transform: translate(0);
-    }
-    20% {
-      transform: translate(-2px, 2px);
-    }
-    40% {
-      transform: translate(-2px, -2px);
-    }
-    60% {
-      transform: translate(2px, 2px);
-    }
-    80% {
-      transform: translate(2px, -2px);
-    }
-    100% {
-      transform: translate(0);
-    }
-  }
 }
 
 /* Overrides and custom elements */

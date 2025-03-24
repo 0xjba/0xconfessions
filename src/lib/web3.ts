@@ -22,11 +22,6 @@ export const useWeb3 = () => {
   const [provider, setProvider] = useState<any | null>(null);
   const [loading, setLoading] = useState(false);
   const [confessions, setConfessions] = useState<Confession[]>([]);
-  const [isCorrectNetwork, setIsCorrectNetwork] = useState(false);
-  const [showNetworkWarning, setShowNetworkWarning] = useState(false);
-
-  // TEN network chainId (443 in decimal, 0x1bb in hex)
-  const TEN_CHAIN_ID = '0x1bb'; 
 
   // Check if wallet is connected
   useEffect(() => {
@@ -38,62 +33,26 @@ export const useWeb3 = () => {
         if (accounts.length > 0) {
           setAccount(accounts[0]);
           setConnected(true);
-          checkNetwork();
         } else {
           setAccount(null);
           setConnected(false);
         }
-      });
-
-      // Handle chain changes
-      window.ethereum.on('chainChanged', () => {
-        checkNetwork();
       });
     }
     
     return () => {
       if (window.ethereum && window.ethereum.removeListener) {
         window.ethereum.removeListener('accountsChanged', () => {});
-        window.ethereum.removeListener('chainChanged', () => {});
       }
     };
   }, []);
 
   // Fetch confessions when contract is available
   useEffect(() => {
-    if (contract && connected && isCorrectNetwork) {
+    if (contract && connected) {
       fetchConfessions();
     }
-  }, [contract, connected, isCorrectNetwork]);
-
-  // This effect ensures the network warning is shown when needed
-  useEffect(() => {
-    if (connected && !isCorrectNetwork) {
-      console.log("Setting network warning to visible");
-      setShowNetworkWarning(true);
-    }
-  }, [connected, isCorrectNetwork]);
-
-  const checkNetwork = async () => {
-    if (!window.ethereum) return;
-    
-    try {
-      const chainId = await window.ethereum.request({ method: 'eth_chainId' });
-      console.log("Current chainId:", chainId, "Expected TEN chainId:", TEN_CHAIN_ID);
-      
-      const isTenNetwork = chainId === TEN_CHAIN_ID;
-      setIsCorrectNetwork(isTenNetwork);
-      
-      if (!isTenNetwork && connected) {
-        setShowNetworkWarning(true);
-        console.log("Network warning should show now!");
-      } else {
-        setShowNetworkWarning(false);
-      }
-    } catch (error) {
-      console.error("Error checking network:", error);
-    }
-  };
+  }, [contract, connected]);
 
   const checkConnection = async () => {
     if (window.ethereum) {
@@ -103,7 +62,6 @@ export const useWeb3 = () => {
         if (accounts.length > 0) {
           setAccount(accounts[0]);
           setConnected(true);
-          await checkNetwork();
           setupContract();
         }
       } catch (error) {
@@ -125,7 +83,6 @@ export const useWeb3 = () => {
       if (accounts.length > 0) {
         setAccount(accounts[0]);
         setConnected(true);
-        await checkNetwork();
         setupContract();
         toast.success("Wallet connected successfully!");
       }
@@ -159,12 +116,6 @@ export const useWeb3 = () => {
 
   const fetchConfessions = async () => {
     if (!contract) return;
-    
-    // Don't fetch if not on correct network
-    if (!isCorrectNetwork) {
-      console.log("Not fetching confessions - wrong network");
-      return;
-    }
 
     try {
       setLoading(true);
@@ -207,12 +158,6 @@ export const useWeb3 = () => {
       toast.error("Please connect your wallet first");
       return;
     }
-    
-    if (!isCorrectNetwork) {
-      console.log("Wrong network detected, showing warning");
-      setShowNetworkWarning(true);
-      return;
-    }
 
     try {
       setLoading(true);
@@ -241,9 +186,6 @@ export const useWeb3 = () => {
     confessions,
     connectWallet,
     submitConfession,
-    refreshConfessions: fetchConfessions,
-    isCorrectNetwork,
-    showNetworkWarning,
-    setShowNetworkWarning
+    refreshConfessions: fetchConfessions
   };
 };
