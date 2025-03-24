@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { CONFESSIONS_ABI, CONFESSIONS_CONTRACT_ADDRESS } from './contractABI';
 import { toast } from "sonner";
@@ -122,7 +123,7 @@ export const useWeb3 = () => {
       const count = await contract.getConfessionCount();
       
       // Get recent confessions (up to 20)
-      const fetchCount = Math.min(20, parseInt(count.toString()));
+      const fetchCount = Math.min(20, Number(count));
       if (fetchCount === 0) {
         setConfessions([]);
         return;
@@ -130,11 +131,11 @@ export const useWeb3 = () => {
 
       const result = await contract.getRecentConfessions(fetchCount);
       
-      // Convert to our format
+      // Convert to our format - ensure BigInt values are converted to Number
       const formattedConfessions: Confession[] = result.map((conf: any, index: number) => ({
-        id: count - index - 1, // Latest confessions first
+        id: Number(count) - index - 1, // Convert BigInt to Number
         text: conf.text,
-        timestamp: Number(conf.timestamp)
+        timestamp: Number(conf.timestamp) // Convert BigInt to Number
       }));
 
       setConfessions(formattedConfessions);
