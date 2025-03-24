@@ -23,7 +23,7 @@ const ConfessionPill: React.FC<ConfessionPillProps> = ({ confession, index }) =>
     <>
       {/* Pill that stays as a pill */}
       <div 
-        className={`relative transition-all duration-300 bg-cyber-black bg-opacity-80 backdrop-blur-lg border ${isHovering ? 'border-white' : 'border-gray-700'} rounded-lg p-1.5 flex items-center justify-center cursor-pointer ${isHovering ? 'glow-pulsate' : ''}`}
+        className={`relative transition-all duration-300 bg-cyber-black bg-opacity-80 backdrop-blur-lg border ${isHovering ? 'border-white animate-glow-pulse' : 'border-gray-700'} rounded-lg p-1.5 flex items-center justify-center cursor-pointer`}
         onClick={() => setIsOpen(true)}
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
