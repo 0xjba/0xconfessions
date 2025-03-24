@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Confession } from '../lib/web3';
 import { Dialog, DialogContent } from "@/components/ui/dialog";
@@ -23,7 +22,7 @@ const ConfessionPill: React.FC<ConfessionPillProps> = ({ confession, index }) =>
     <>
       {/* Pill that stays as a pill */}
       <div 
-        className="relative transition-all duration-300 bg-cyber-black bg-opacity-80 backdrop-blur-lg border border-gray-700 rounded-lg p-1.5 flex items-center justify-center"
+        className="relative transition-all duration-300 bg-cyber-black bg-opacity-80 backdrop-blur-lg border border-gray-700 rounded-lg p-1.5 flex items-center justify-center cursor-pointer"
         onClick={() => setIsOpen(true)}
       >
         <span className="text-white text-xs text-center">{truncatedText}</span>
@@ -33,7 +32,7 @@ const ConfessionPill: React.FC<ConfessionPillProps> = ({ confession, index }) =>
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent 
           className="bg-cyber-black bg-opacity-90 backdrop-blur-lg border border-gray-700 max-w-md max-h-[400px] p-0 rounded-md"
-          closeButtonClassName="multicolor-border-blue-purple rounded-full p-1 hover:bg-opacity-20 transition-all duration-300"
+          closeButtonClassName="bg-gradient-to-r from-cyber-blue to-cyber-purple rounded-full p-1 hover:bg-opacity-20 hover:opacity-100 transition-all duration-300"
         >
           <div className="p-4 flex flex-col">
             <div className="mb-3 flex items-center">
