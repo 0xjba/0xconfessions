@@ -24,6 +24,26 @@ export const useWeb3 = () => {
   const [confessions, setConfessions] = useState<Confession[]>([]);
   const [chainId, setChainId] = useState<string | null>(null);
 
+  // Handle chain changes
+  useEffect(() => {
+    if (window.ethereum) {
+      // Set up the chainChanged event listener
+      const handleChainChanged = (_chainId: string) => {
+        // We recommend reloading the page, unless you must do otherwise
+        window.location.reload();
+      };
+      
+      window.ethereum.on('chainChanged', handleChainChanged);
+      
+      // Clean up the event listener
+      return () => {
+        if (window.ethereum && window.ethereum.removeListener) {
+          window.ethereum.removeListener('chainChanged', handleChainChanged);
+        }
+      };
+    }
+  }, []);
+
   // Check if wallet is connected
   useEffect(() => {
     checkConnection();
@@ -40,18 +60,11 @@ export const useWeb3 = () => {
           setConnected(false);
         }
       });
-
-      // Handle chain changes
-      window.ethereum.on('chainChanged', (newChainId: string) => {
-        setChainId(newChainId);
-        checkConnection(); // Reconnect on chain change
-      });
     }
     
     return () => {
       if (window.ethereum && window.ethereum.removeListener) {
         window.ethereum.removeListener('accountsChanged', () => {});
-        window.ethereum.removeListener('chainChanged', () => {});
       }
     };
   }, []);
