@@ -66,7 +66,7 @@ const ConfessionInput: React.FC = () => {
         {/* Status text */}
         <div className={`text-xs text-white ${connected ? 'text-opacity-50' : 'text-opacity-100 animate-pulse-soft'}`}>
           {connected 
-            ? 'BRUTALLY HONEST. COMPLETELY ANONYMOUS.' 
+            ? 'vibecoded by 0xJba on TEN network' 
             : 'CONNECT WALLET TO SUBMIT CONFESSIONS'}
         </div>
       </form>
