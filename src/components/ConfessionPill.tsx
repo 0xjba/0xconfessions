@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { Confession } from '../lib/web3';
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 interface ConfessionPillProps {
   confession: Confession;
@@ -8,7 +9,8 @@ interface ConfessionPillProps {
 }
 
 const ConfessionPill: React.FC<ConfessionPillProps> = ({ confession, index }) => {
-  const [expanded, setExpanded] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  
   const truncatedText = confession.text.length > 10 
     ? `${confession.text.substring(0, 10)}...` 
     : confession.text;
@@ -17,56 +19,41 @@ const ConfessionPill: React.FC<ConfessionPillProps> = ({ confession, index }) =>
   const timeAgo = getTimeAgo(timestamp);
 
   return (
-    <div 
-      className={`relative transition-all duration-500 bg-cyber-black bg-opacity-80 backdrop-blur-lg cursor-pointer border border-gray-700 ${
-        expanded ? 'fixed inset-0 w-full sm:w-[500px] h-auto max-h-[400px] mx-auto my-20 animate-expand z-50 rounded-md' : 'text-xs rounded-lg'
-      }`}
-      onClick={() => setExpanded(!expanded)}
-    >
-      {expanded ? (
-        // Expanded view - more squared with smaller text
-        <div className="p-4 flex flex-col">
-          <div className="mb-3 flex items-center justify-between">
-            <div className="flex items-center">
-              <div className="w-2 h-2 rounded-full bg-white animate-pulse-soft mr-2"></div>
-              <span className="text-xs text-white text-opacity-70">{timeAgo}</span>
-            </div>
-            <div 
-              className="text-white cursor-pointer px-3 text-sm"
-              onClick={(e) => {
-                e.stopPropagation();
-                setExpanded(false);
-              }}
-            >
-              X
-            </div>
-          </div>
-          <div className="overflow-y-auto max-h-[280px] scrollbar-none">
-            <p className="text-white text-sm mb-4 text-left">{confession.text}</p>
-          </div>
-          <div className="text-xs text-white text-opacity-50 text-right mt-auto">
-            CONFESSION #{confession.id}
-          </div>
-        </div>
-      ) : (
-        // Collapsed view - centered text in pill
-        <div className="p-1.5 flex items-center justify-center h-full">
-          <span className="text-white text-xs text-center">{truncatedText}</span>
-        </div>
-      )}
+    <>
+      {/* Pill that stays as a pill */}
+      <div 
+        className="relative transition-all duration-300 bg-cyber-black bg-opacity-80 backdrop-blur-lg cursor-pointer border border-gray-700 rounded-lg p-1.5 flex items-center justify-center"
+        onClick={() => setIsOpen(true)}
+      >
+        <span className="text-white text-xs text-center">{truncatedText}</span>
+      </div>
 
-      {/* Click anywhere outside to close */}
-      {expanded && (
-        <div 
-          className="fixed inset-0 bg-cyber-black bg-opacity-50 backdrop-blur-sm"
-          onClick={(e) => {
-            e.stopPropagation();
-            setExpanded(false);
-          }}
-          style={{ zIndex: -1 }}
-        />
-      )}
-    </div>
+      {/* Dialog for expanded view */}
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <DialogContent className="bg-cyber-black bg-opacity-90 backdrop-blur-lg border border-gray-700 max-w-md max-h-[400px] p-0 rounded-md">
+          <div className="p-4 flex flex-col">
+            <div className="mb-3 flex items-center justify-between">
+              <div className="flex items-center">
+                <div className="w-2 h-2 rounded-full bg-white animate-pulse-soft mr-2"></div>
+                <span className="text-xs text-white text-opacity-70">{timeAgo}</span>
+              </div>
+              <div 
+                className="text-white cursor-pointer px-3 text-sm"
+                onClick={() => setIsOpen(false)}
+              >
+                X
+              </div>
+            </div>
+            <div className="overflow-y-auto max-h-[280px] scrollbar-none">
+              <p className="text-white text-sm mb-4 text-left">{confession.text}</p>
+            </div>
+            <div className="text-xs text-white text-opacity-50 text-right mt-auto">
+              CONFESSION #{confession.id}
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };
 
