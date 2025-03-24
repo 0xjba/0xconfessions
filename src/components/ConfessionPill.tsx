@@ -9,8 +9,8 @@ interface ConfessionPillProps {
 
 const ConfessionPill: React.FC<ConfessionPillProps> = ({ confession, index }) => {
   const [expanded, setExpanded] = useState(false);
-  const truncatedText = confession.text.length > 25 
-    ? `${confession.text.substring(0, 25)}...` 
+  const truncatedText = confession.text.length > 15 
+    ? `${confession.text.substring(0, 15)}...` 
     : confession.text;
   
   const timestamp = new Date(confession.timestamp * 1000);
@@ -31,7 +31,7 @@ const ConfessionPill: React.FC<ConfessionPillProps> = ({ confession, index }) =>
   return (
     <div 
       className={`relative transition-all duration-500 bg-cyber-black bg-opacity-80 backdrop-blur-lg rounded-lg cursor-pointer ${getBorderClass()} ${
-        expanded ? 'fixed inset-0 w-full sm:w-3/4 lg:w-1/2 xl:w-2/5 h-fit mx-auto my-20 animate-expand z-50' : ''
+        expanded ? 'fixed inset-0 w-full sm:w-3/4 lg:w-1/2 xl:w-2/5 h-fit mx-auto my-20 animate-expand z-50' : 'text-xs'
       }`}
       onClick={() => setExpanded(!expanded)}
     >
@@ -59,9 +59,9 @@ const ConfessionPill: React.FC<ConfessionPillProps> = ({ confession, index }) =>
           </div>
         </div>
       ) : (
-        // Collapsed view (pill)
-        <div className="p-4">
-          <span className="text-white text-sm">{truncatedText}</span>
+        // Collapsed view (smaller pill)
+        <div className="p-2">
+          <span className="text-white text-xs">{truncatedText}</span>
         </div>
       )}
 
