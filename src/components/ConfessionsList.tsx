@@ -10,7 +10,7 @@ const ConfessionsList: React.FC = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       refreshConfessions();
-    }, 30000); // Every 30 seconds
+    }, 15000); // Every 15 seconds
     
     return () => clearInterval(interval);
   }, [refreshConfessions]);
