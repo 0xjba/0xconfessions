@@ -25,7 +25,8 @@ export const useWeb3 = () => {
   const [isCorrectNetwork, setIsCorrectNetwork] = useState(false);
   const [showNetworkWarning, setShowNetworkWarning] = useState(false);
 
-  const TEN_CHAIN_ID = '0x1bb'; // Hex value of 443
+  // TEN network chainId (443 in decimal, 0x1bb in hex)
+  const TEN_CHAIN_ID = '0x1bb'; 
 
   // Check if wallet is connected
   useEffect(() => {
@@ -64,6 +65,14 @@ export const useWeb3 = () => {
       fetchConfessions();
     }
   }, [contract, connected, isCorrectNetwork]);
+
+  // This effect ensures the network warning is shown when needed
+  useEffect(() => {
+    if (connected && !isCorrectNetwork) {
+      console.log("Setting network warning to visible");
+      setShowNetworkWarning(true);
+    }
+  }, [connected, isCorrectNetwork]);
 
   const checkNetwork = async () => {
     if (!window.ethereum) return;
@@ -200,6 +209,7 @@ export const useWeb3 = () => {
     }
     
     if (!isCorrectNetwork) {
+      console.log("Wrong network detected, showing warning");
       setShowNetworkWarning(true);
       return;
     }

@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { AlertTriangle, X } from 'lucide-react';
+import { AlertTriangle } from 'lucide-react';
 import { 
   Dialog, 
   DialogContent,
@@ -26,6 +26,13 @@ const NetworkWarning: React.FC<NetworkWarningProps> = ({ open, onClose }) => {
     
     return () => clearInterval(interval);
   }, []);
+
+  // Force open dialog to be visible when open prop is true
+  useEffect(() => {
+    if (open) {
+      console.log("NetworkWarning: Dialog should be visible now");
+    }
+  }, [open]);
 
   return (
     <Dialog open={open} onOpenChange={(isOpen) => {
