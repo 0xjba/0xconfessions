@@ -22,6 +22,10 @@ export const useWeb3 = () => {
   const [provider, setProvider] = useState<any | null>(null);
   const [loading, setLoading] = useState(false);
   const [confessions, setConfessions] = useState<Confession[]>([]);
+  const [isCorrectNetwork, setIsCorrectNetwork] = useState(false);
+  const [showNetworkWarning, setShowNetworkWarning] = useState(false);
+
+  const TEN_CHAIN_ID = '0x1bb'; // Hex value of 443
 
   // Check if wallet is connected
   useEffect(() => {
@@ -33,16 +37,23 @@ export const useWeb3 = () => {
         if (accounts.length > 0) {
           setAccount(accounts[0]);
           setConnected(true);
+          checkNetwork();
         } else {
           setAccount(null);
           setConnected(false);
         }
+      });
+
+      // Handle chain changes
+      window.ethereum.on('chainChanged', () => {
+        checkNetwork();
       });
     }
     
     return () => {
       if (window.ethereum && window.ethereum.removeListener) {
         window.ethereum.removeListener('accountsChanged', () => {});
+        window.ethereum.removeListener('chainChanged', () => {});
       }
     };
   }, []);
@@ -54,6 +65,25 @@ export const useWeb3 = () => {
     }
   }, [contract, connected]);
 
+  const checkNetwork = async () => {
+    if (!window.ethereum) return;
+    
+    try {
+      const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+      const isTenNetwork = chainId === TEN_CHAIN_ID;
+      
+      setIsCorrectNetwork(isTenNetwork);
+      
+      if (!isTenNetwork && connected) {
+        setShowNetworkWarning(true);
+      } else {
+        setShowNetworkWarning(false);
+      }
+    } catch (error) {
+      console.error("Error checking network:", error);
+    }
+  };
+
   const checkConnection = async () => {
     if (window.ethereum) {
       try {
@@ -63,6 +93,7 @@ export const useWeb3 = () => {
           setAccount(accounts[0]);
           setConnected(true);
           setupContract();
+          checkNetwork();
         }
       } catch (error) {
         console.error("Failed to check connection:", error);
@@ -84,6 +115,7 @@ export const useWeb3 = () => {
         setAccount(accounts[0]);
         setConnected(true);
         setupContract();
+        checkNetwork();
         toast.success("Wallet connected successfully!");
       }
     } catch (error: any) {
@@ -186,6 +218,9 @@ export const useWeb3 = () => {
     confessions,
     connectWallet,
     submitConfession,
-    refreshConfessions: fetchConfessions
+    refreshConfessions: fetchConfessions,
+    isCorrectNetwork,
+    showNetworkWarning,
+    setShowNetworkWarning
   };
 };
