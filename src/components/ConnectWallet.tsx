@@ -1,7 +1,6 @@
-
 import React, { useEffect, useState } from 'react';
 import { useWeb3 } from '../lib/web3';
-import { Network, PlusCircle } from 'lucide-react';
+import { Network, PlusCircle, ExternalLink } from 'lucide-react';
 
 const ConnectWallet: React.FC = () => {
   const { connected, account, loading, connectWallet, chainId } = useWeb3();
@@ -34,6 +33,10 @@ const ConnectWallet: React.FC = () => {
     }
   };
 
+  const openTENWebsite = () => {
+    window.open('https://testnet.ten.xyz/', '_blank');
+  };
+
   return (
     <div className="fixed top-4 right-4 z-50 flex gap-3">
       {/* Network Status Pill */}
@@ -50,10 +53,10 @@ const ConnectWallet: React.FC = () => {
           </span>
           {!isCorrectNetwork && (
             <button 
-              onClick={addTENNetwork}
+              onClick={openTENWebsite}
               className="ml-2 flex items-center text-xs text-white bg-gradient-to-r from-orange-500 to-pink-500 px-2 py-1 rounded-full"
             >
-              <PlusCircle className="w-3 h-3 mr-1" />
+              <ExternalLink className="w-3 h-3 mr-1" />
               Add TEN
             </button>
           )}
