@@ -26,7 +26,7 @@ const Index: React.FC = () => {
       <header className="w-full pt-16 pb-8 px-4 flex flex-col items-center">
         <div className="text-center mb-2 animate-text-flicker">
           <h1 className="cyber-text text-3xl sm:text-4xl md:text-5xl font-bold mb-1 tracking-widest">
-            0xCONFESSIONS
+            OxCONFESSIONS
           </h1>
           <div className="cyber-text text-sm sm:text-base text-opacity-70 tracking-wider">
             BRUTAL · ANONYMOUS · ONCHAIN

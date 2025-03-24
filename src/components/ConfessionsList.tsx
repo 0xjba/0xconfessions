@@ -20,7 +20,7 @@ const ConfessionsList: React.FC = () => {
       {/* Title for the confessions section */}
       <div className="mb-4 text-center">
         <h2 className="cyber-text text-xl tracking-wider animate-pulse-soft">
-          RECENT 0xCONFESSIONS
+          RECENT OxCONFESSIONS
         </h2>
         <div className="h-px w-24 bg-cyber-green mx-auto mt-2"></div>
       </div>
