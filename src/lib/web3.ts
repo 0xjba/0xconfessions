@@ -60,22 +60,24 @@ export const useWeb3 = () => {
 
   // Fetch confessions when contract is available
   useEffect(() => {
-    if (contract && connected) {
+    if (contract && connected && isCorrectNetwork) {
       fetchConfessions();
     }
-  }, [contract, connected]);
+  }, [contract, connected, isCorrectNetwork]);
 
   const checkNetwork = async () => {
     if (!window.ethereum) return;
     
     try {
       const chainId = await window.ethereum.request({ method: 'eth_chainId' });
-      const isTenNetwork = chainId === TEN_CHAIN_ID;
+      console.log("Current chainId:", chainId, "Expected TEN chainId:", TEN_CHAIN_ID);
       
+      const isTenNetwork = chainId === TEN_CHAIN_ID;
       setIsCorrectNetwork(isTenNetwork);
       
       if (!isTenNetwork && connected) {
         setShowNetworkWarning(true);
+        console.log("Network warning should show now!");
       } else {
         setShowNetworkWarning(false);
       }
@@ -92,8 +94,8 @@ export const useWeb3 = () => {
         if (accounts.length > 0) {
           setAccount(accounts[0]);
           setConnected(true);
+          await checkNetwork();
           setupContract();
-          checkNetwork();
         }
       } catch (error) {
         console.error("Failed to check connection:", error);
@@ -114,8 +116,8 @@ export const useWeb3 = () => {
       if (accounts.length > 0) {
         setAccount(accounts[0]);
         setConnected(true);
+        await checkNetwork();
         setupContract();
-        checkNetwork();
         toast.success("Wallet connected successfully!");
       }
     } catch (error: any) {
@@ -148,6 +150,12 @@ export const useWeb3 = () => {
 
   const fetchConfessions = async () => {
     if (!contract) return;
+    
+    // Don't fetch if not on correct network
+    if (!isCorrectNetwork) {
+      console.log("Not fetching confessions - wrong network");
+      return;
+    }
 
     try {
       setLoading(true);
@@ -188,6 +196,11 @@ export const useWeb3 = () => {
     if (!connected) {
       // Only show this message if the wallet is truly not connected
       toast.error("Please connect your wallet first");
+      return;
+    }
+    
+    if (!isCorrectNetwork) {
+      setShowNetworkWarning(true);
       return;
     }
 
