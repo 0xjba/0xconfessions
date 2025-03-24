@@ -38,7 +38,7 @@ const ConnectWallet: React.FC = () => {
     <div className="fixed top-4 right-4 z-50 flex gap-3">
       {/* Network Status Pill */}
       {connected && (
-        <div className={`multicolor-border-${isCorrectNetwork ? 'teal-green' : 'orange-pink'} rounded-full px-4 py-2 flex items-center justify-center group cursor-pointer bg-cyber-black bg-opacity-80 backdrop-blur-lg relative`}>
+        <div className={`multicolor-border-${isCorrectNetwork ? 'teal-green' : 'orange-pink'} rounded-full px-4 py-2 flex items-center justify-center group bg-cyber-black bg-opacity-80 backdrop-blur-lg relative`}>
           <Network className="w-4 h-4 mr-2" />
           <span className="text-white text-sm">
             {isCorrectNetwork ? 'TEN Network' : (
@@ -49,20 +49,23 @@ const ConnectWallet: React.FC = () => {
             )}
           </span>
           
-          {/* Add TEN Link - Now positioned with z-index to ensure it's clickable */}
+          {/* Add TEN Link - With improved interaction */}
           {!isCorrectNetwork && (
             <a 
               href="https://testnet.ten.xyz/"
               target="_blank"
               rel="noopener noreferrer"
-              className="ml-2 flex items-center text-xs text-white bg-gradient-to-r from-orange-500 to-pink-500 px-2 py-1 rounded-full z-10 relative"
+              className="ml-2 flex items-center text-xs text-white bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 active:from-orange-700 active:to-pink-700 px-2 py-1 rounded-full z-10 relative transition-colors duration-200"
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
             >
               <ExternalLink className="w-3 h-3 mr-1" />
               Add TEN
             </a>
           )}
           
-          {/* Hover effect background - now behind the Add TEN button */}
+          {/* Hover effect background - behind the Add TEN button */}
           <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white bg-opacity-10 z-0"></div>
         </div>
       )}
