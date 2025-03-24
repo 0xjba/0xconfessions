@@ -113,6 +113,14 @@ export default {
 						boxShadow: '0 0 15px rgba(255, 255, 255, 0.8)'
 					}
 				},
+				'glow-pulse': {
+					'0%, 100%': { 
+						boxShadow: '0 0 5px rgba(255, 255, 255, 0.7), 0 0 10px rgba(255, 255, 255, 0.5)'
+					},
+					'50%': { 
+						boxShadow: '0 0 15px rgba(255, 255, 255, 0.9), 0 0 25px rgba(255, 255, 255, 0.7)'
+					}
+				},
 				'text-flicker': {
 					'0%, 100%': { opacity: '1' },
 					'92%': { opacity: '1' },
@@ -141,6 +149,7 @@ export default {
 				'float': 'float 6s ease-in-out infinite',
 				'pulse-soft': 'pulse-soft 3s ease-in-out infinite',
 				'glow': 'glow 3s ease-in-out infinite',
+				'glow-pulse': 'glow-pulse 2s ease-in-out infinite',
 				'text-flicker': 'text-flicker 3s linear infinite',
 				'fade-in': 'fade-in 0.5s ease-out',
 				'slide-up': 'slide-up 0.5s ease-out',
