@@ -43,7 +43,7 @@ const ConnectWallet: React.FC = () => {
   return (
     <div className="fixed top-4 right-4 z-50 flex gap-3">
       {connected && (
-        <div className={`multicolor-border-${isCorrectNetwork ? 'teal-green' : 'orange-pink'} rounded-full px-4 py-2 flex items-center justify-center group bg-cyber-black bg-opacity-80 backdrop-blur-lg relative overflow-hidden transition-all duration-300 ${isCorrectNetwork ? 'hover:shadow-[0_0_15px_rgba(0,255,65,0.7)]' : ''}`}>
+        <div className={`multicolor-border-${isCorrectNetwork ? 'teal-green' : 'orange-pink'} rounded-full px-4 py-2 flex items-center justify-center group bg-cyber-black bg-opacity-80 backdrop-blur-lg relative overflow-hidden transition-all duration-300 ${isCorrectNetwork ? 'hover:shadow-[0_0_10px_rgba(0,255,65,0.4)]' : ''}`}>
           {isCorrectNetwork && (
             <div className="half-filled-fluid"></div>
           )}
