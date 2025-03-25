@@ -7,6 +7,7 @@ import AnimatedBackground from '../components/AnimatedBackground';
 import NoiseOverlay from '../components/NoiseOverlay';
 import MobileWarning from '../components/MobileWarning';
 import GlitchOverlay from '../components/GlitchOverlay';
+import ConfessionSearch from '../components/ConfessionSearch';
 import { useIsMobile } from '../hooks/use-mobile';
 import { useWeb3 } from '../lib/web3';
 import { Twitter } from 'lucide-react';
@@ -41,6 +42,9 @@ const Index: React.FC = () => {
       
       {/* Scanlines and glitch effect overlay */}
       <GlitchOverlay />
+      
+      {/* Search component */}
+      <ConfessionSearch />
       
       {/* Connect wallet button */}
       <ConnectWallet />

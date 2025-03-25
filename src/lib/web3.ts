@@ -8,6 +8,7 @@ export interface Confession {
   id: number;
   text: string;
   timestamp: number;
+  upvotes: number;
 }
 
 interface WindowWithEthereum extends Window {
@@ -23,6 +24,8 @@ export const useWeb3 = () => {
   const [provider, setProvider] = useState<any | null>(null);
   const [loading, setLoading] = useState(false);
   const [confessions, setConfessions] = useState<Confession[]>([]);
+  const [topConfessions, setTopConfessions] = useState<Confession[]>([]);
+  const [totalConfessions, setTotalConfessions] = useState<number>(0);
   const [chainId, setChainId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -52,7 +55,7 @@ export const useWeb3 = () => {
           checkChainId().then(id => {
             if (id === '0x1bb') {
               setupContract().then(() => {
-                fetchConfessions();
+                refreshData();
               });
             }
           });
@@ -73,7 +76,7 @@ export const useWeb3 = () => {
   useEffect(() => {
     if (connected && chainId === '0x1bb') {
       setupContract().then(() => {
-        fetchConfessions();
+        refreshData();
       });
     }
   }, [connected, chainId]);
@@ -128,7 +131,7 @@ export const useWeb3 = () => {
         if (currentChain === '0x1bb') {
           await setupContract();
           // Immediately fetch confessions when wallet connects to correct network
-          await fetchConfessions();
+          await refreshData();
         }
         toast.success("Wallet connected successfully!");
       }
@@ -184,31 +187,124 @@ export const useWeb3 = () => {
     }
 
     try {
-      setLoading(true);
-      const count = await contractInstance.getConfessionCount();
-      
-      const fetchCount = Math.min(20, Number(count));
-      if (fetchCount === 0) {
-        setConfessions([]);
-        return;
-      }
-
+      const fetchCount = 20; // Fetch 20 latest confessions
       const result = await contractInstance.getRecentConfessions(fetchCount);
       
-      const formattedConfessions: Confession[] = result.map((conf: any, index: number) => ({
-        id: Number(count) - index - 1,
+      const formattedConfessions: Confession[] = result.map((conf: any) => ({
+        id: Number(conf.id),
         text: conf.text,
-        timestamp: Number(conf.timestamp)
+        timestamp: Number(conf.timestamp),
+        upvotes: Number(conf.upvotes)
       }));
 
       setConfessions(formattedConfessions);
     } catch (error) {
       console.error("Error fetching confessions:", error);
       toast.error("Failed to load confessions");
+    }
+  }, [contract, chainId]);
+
+  const fetchTopConfessions = useCallback(async () => {
+    if (chainId !== '0x1bb' || !contract) return;
+    
+    try {
+      const result = await contract.getTopConfessions();
+      
+      const formattedTopConfessions: Confession[] = result.map((conf: any) => ({
+        id: Number(conf.id),
+        text: conf.text,
+        timestamp: Number(conf.timestamp),
+        upvotes: Number(conf.upvotes)
+      }));
+
+      setTopConfessions(formattedTopConfessions);
+    } catch (error) {
+      console.error("Error fetching top confessions:", error);
+    }
+  }, [contract, chainId]);
+
+  const fetchTotalConfessions = useCallback(async () => {
+    if (chainId !== '0x1bb' || !contract) return;
+    
+    try {
+      const count = await contract.totalConfessionsCount();
+      setTotalConfessions(Number(count));
+    } catch (error) {
+      console.error("Error fetching total confessions count:", error);
+    }
+  }, [contract, chainId]);
+
+  const refreshData = useCallback(async () => {
+    setLoading(true);
+    try {
+      await Promise.all([
+        fetchConfessions(),
+        fetchTopConfessions(),
+        fetchTotalConfessions()
+      ]);
+    } catch (error) {
+      console.error("Error refreshing data:", error);
     } finally {
       setLoading(false);
     }
-  }, [contract, chainId]);
+  }, [fetchConfessions, fetchTopConfessions, fetchTotalConfessions]);
+
+  const checkIfUserHasUpvoted = async (confessionId: number) => {
+    if (!connected || chainId !== '0x1bb' || !contract) {
+      return false;
+    }
+
+    try {
+      const hasUpvoted = await contract.hasUserUpvoted(confessionId);
+      return hasUpvoted;
+    } catch (error) {
+      console.error("Error checking if user has upvoted:", error);
+      return false;
+    }
+  };
+
+  const upvoteConfession = async (confessionId: number) => {
+    if (!connected) {
+      toast.error("Please connect your wallet first");
+      return;
+    }
+
+    if (chainId !== '0x1bb') {
+      toast.error("Please connect to TEN network (Chain ID: 443)");
+      return;
+    }
+
+    // Make sure we have a valid contract instance
+    if (!contract) {
+      toast.error("Contract not initialized");
+      return;
+    }
+
+    // Check if user has already upvoted
+    const hasUpvoted = await checkIfUserHasUpvoted(confessionId);
+    if (hasUpvoted) {
+      toast.error("You've already upvoted this confession");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const tx = await contract.upvoteConfession(confessionId);
+      toast.success(`Upvoting confession #${confessionId}. Waiting for confirmation...`);
+      
+      await tx.wait();
+      
+      toast.success(`Upvote for confession #${confessionId} confirmed!`);
+      
+      // Immediately refresh data after upvoting
+      await refreshData();
+    } catch (error: any) {
+      console.error("Error upvoting confession:", error);
+      toast.error(error.message || "Failed to upvote confession");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const submitConfession = async (text: string) => {
     if (!connected) {
@@ -236,12 +332,21 @@ export const useWeb3 = () => {
       const tx = await contractInstance.confess(text);
       toast.success("Confession submitted! Waiting for confirmation...");
       
-      await tx.wait();
+      const receipt = await tx.wait();
       
-      toast.success("Confession confirmed on the blockchain!");
+      // Find the ConfessionAdded event in the transaction logs
+      const confessionEvent = receipt.logs
+        .find((log: any) => log.fragment && log.fragment.name === 'ConfessionAdded');
       
-      // Immediately fetch fresh confessions after submitting
-      await fetchConfessions();
+      if (confessionEvent && confessionEvent.args) {
+        const confessionId = Number(confessionEvent.args[0]);
+        toast.success(`Confession #${confessionId} confirmed on the blockchain!`);
+      } else {
+        toast.success("Confession confirmed on the blockchain!");
+      }
+      
+      // Immediately refresh data after submitting
+      await refreshData();
     } catch (error: any) {
       console.error("Error submitting confession:", error);
       toast.error(error.message || "Failed to submit confession");
@@ -250,14 +355,38 @@ export const useWeb3 = () => {
     }
   };
 
+  const getConfessionById = async (id: number) => {
+    if (!contract || chainId !== '0x1bb') {
+      return null;
+    }
+
+    try {
+      const [text, timestamp, upvotes] = await contract.getConfession(id);
+      return {
+        id,
+        text,
+        timestamp: Number(timestamp),
+        upvotes: Number(upvotes)
+      };
+    } catch (error) {
+      console.error("Error fetching confession by ID:", error);
+      return null;
+    }
+  };
+
   return {
     connected,
     account,
     loading,
     confessions,
+    topConfessions,
+    totalConfessions,
     chainId,
     connectWallet,
     submitConfession,
-    refreshConfessions: fetchConfessions
+    upvoteConfession,
+    checkIfUserHasUpvoted,
+    getConfessionById,
+    refreshData
   };
 };
