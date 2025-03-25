@@ -49,7 +49,16 @@ const ConnectWallet: React.FC = () => {
           )}
           <Fuel className="w-4 h-4 mr-2 relative z-10 group-hover:text-black" />
           <span className="text-white text-sm relative z-10 group-hover:text-black">
-            {isCorrectNetwork ? 'TEN Network' : (
+            {isCorrectNetwork ? (
+              <a 
+                href="https://faucet.ten.xyz/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="hover:underline cursor-pointer"
+              >
+                TEN Network
+              </a>
+            ) : (
               <>
                 Wrong Network
                 {chainId && <span className="ml-1 opacity-70">({chainId})</span>}
