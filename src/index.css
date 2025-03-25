@@ -516,7 +516,7 @@
     );
     background-size: 100% 3px;
     opacity: 0.8;
-    animation: scanline-move 8s linear infinite;
+    animation: scanline-move 20s linear infinite; /* Increased from 8s to 20s for slower movement */
     mix-blend-mode: lighten;
   }
   
