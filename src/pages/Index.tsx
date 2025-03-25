@@ -52,8 +52,8 @@ const Index: React.FC = () => {
         <ConnectWallet />
       </div>
       
-      {/* Total confessions counter - now absolute centered */}
-      <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50">
+      {/* Total confessions counter - now absolute centered and slightly adjusted down */}
+      <div className="fixed top-5 left-1/2 transform -translate-x-1/2 z-50">
         <div className="cyber-text text-sm tracking-wider">
           TOTAL CONFESSIONS: <span className="text-white">{totalConfessions}</span>
         </div>

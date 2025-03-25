@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Search, ArrowRight } from 'lucide-react';
+import { Search, ArrowRight, X, ArrowUp } from 'lucide-react';
 import { useWeb3 } from '../lib/web3';
 import ConfessionPill from './ConfessionPill';
 import { toast } from 'sonner';
@@ -51,7 +51,9 @@ const ConfessionSearch: React.FC = () => {
   return (
     <div 
       className={`fixed top-4 left-4 z-20 overflow-hidden transition-all duration-300 ${
-        isExpanded ? 'bg-gradient-to-r from-orange-500 to-red-500 rounded-md w-auto h-auto' : 'w-10 h-10 rounded-full bg-cyber-black bg-opacity-80'
+        isExpanded 
+          ? 'bg-gradient-to-r from-orange-500 to-red-500 rounded-md w-auto h-auto' 
+          : 'w-10 h-10 rounded-full bg-cyber-black bg-opacity-80'
       }`}
     >
       <div className={`flex items-center h-10 ${isExpanded ? 'px-2' : ''}`}>
@@ -89,13 +91,23 @@ const ConfessionSearch: React.FC = () => {
       </div>
       
       {isExpanded && searchResult && (
-        <div className="p-3 bg-cyber-black bg-opacity-90 backdrop-blur-lg border-t border-gray-700 mt-0 rounded-b-sm">
-          <p className="text-xs text-white mb-2">Found confession:</p>
+        <div className="p-3 bg-cyber-black bg-opacity-90 backdrop-blur-lg border-t border-gray-700 mt-0 rounded-sm">
+          <div className="flex justify-between items-start mb-2">
+            <p className="text-xs text-white">Found confession:</p>
+            <button 
+              onClick={() => setSearchResult(null)} 
+              className="text-white hover:text-gray-300 transition-colors"
+            >
+              <X size={16} />
+            </button>
+          </div>
           <div className="flex justify-center">
             <ConfessionPill 
               confession={searchResult} 
               index={0}
               showUpvotes={true}
+              customUpvoteIcon={<ArrowUp size={16} className="text-white" />}
+              upvotePosition="bottom-left"
             />
           </div>
         </div>
