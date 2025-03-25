@@ -1,10 +1,9 @@
-
 import React, { useEffect, useState } from 'react';
 import { useWeb3 } from '../lib/web3';
 import { Droplet, PlusCircle, ExternalLink, Fuel } from 'lucide-react';
 
 const ConnectWallet: React.FC = () => {
-  const { connected, account, loading, connectWallet, chainId, refreshConfessions } = useWeb3();
+  const { connected, account, loading, connectWallet, chainId, refreshData } = useWeb3();
   const [isCorrectNetwork, setIsCorrectNetwork] = useState<boolean>(false);
 
   useEffect(() => {
@@ -13,9 +12,9 @@ const ConnectWallet: React.FC = () => {
 
   useEffect(() => {
     if (connected && isCorrectNetwork) {
-      refreshConfessions();
+      refreshData();
     }
-  }, [connected, isCorrectNetwork, refreshConfessions]);
+  }, [connected, isCorrectNetwork, refreshData]);
 
   const addTENNetwork = async () => {
     if (!window.ethereum) return;
