@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Confession, useWeb3 } from '../lib/web3';
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { Flame } from 'lucide-react';
+import { Flame, X } from 'lucide-react';
 
 interface ConfessionPillProps {
   confession: Confession;
@@ -57,14 +57,24 @@ const ConfessionPill: React.FC<ConfessionPillProps> = ({ confession, index, show
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent 
           className="bg-cyber-black bg-opacity-90 backdrop-blur-lg border border-gray-700 max-w-md max-h-[400px] p-0 rounded-md"
-          closeButtonClassName="bg-gradient-to-r from-cyber-blue to-cyber-purple rounded-full p-1 hover:bg-opacity-20 hover:opacity-100 transition-all duration-300"
+          closeButtonClassName="text-white hover:text-white hover:bg-opacity-20 hover:opacity-100 transition-all duration-300"
         >
           <div className="p-4 flex flex-col h-full">
-            <div className="mb-3 flex items-center justify-between">
+            <div className="mb-3 flex items-center justify-between relative">
               <div className="flex items-center">
                 <div className="w-2 h-2 rounded-full bg-white animate-pulse-soft mr-2"></div>
                 <span className="text-xs text-white text-opacity-70">{timeAgo}</span>
               </div>
+              <X 
+                className="absolute -top-2 -right-2 cursor-pointer text-white hover:text-gray-300 transition-colors" 
+                size={18} 
+                onClick={() => setIsOpen(false)} 
+              />
+            </div>
+            <div className="overflow-y-auto max-h-[280px] scrollbar-none">
+              <p className="text-white text-sm mb-4 text-left">{confession.text}</p>
+            </div>
+            <div className="flex justify-between items-center mt-auto">
               <div className="flex items-center">
                 <span className="text-xs text-white text-opacity-70 mr-2">
                   {confession.upvotes} upvotes
@@ -72,20 +82,17 @@ const ConfessionPill: React.FC<ConfessionPillProps> = ({ confession, index, show
                 <button 
                   onClick={handleUpvote}
                   disabled={hasUpvoted || !connected}
-                  className={`p-1.5 rounded-full transition-all duration-200 mr-8 ${
+                  className={`p-1.5 rounded-full transition-all duration-200 ${
                     hasUpvoted ? 'bg-gradient-to-r from-orange-500 to-red-500 bg-opacity-30 cursor-not-allowed' : connected ? 'bg-cyber-black hover:bg-gradient-to-r hover:from-orange-500 hover:to-red-500 hover:bg-opacity-30 cursor-pointer' : 'bg-cyber-black opacity-50 cursor-not-allowed'
                   }`}
                   title={!connected ? "Connect wallet to upvote" : hasUpvoted ? "Already upvoted" : "Upvote this confession"}
                 >
-                  <Flame size={16} className={hasUpvoted ? 'text-white' : 'text-white'} />
+                  <Flame size={16} className="text-white" />
                 </button>
               </div>
-            </div>
-            <div className="overflow-y-auto max-h-[280px] scrollbar-none">
-              <p className="text-white text-sm mb-4 text-left">{confession.text}</p>
-            </div>
-            <div className="text-xs text-white text-opacity-50 text-right mt-auto">
-              CONFESSION #{confession.id}
+              <div className="text-xs text-white text-opacity-50">
+                CONFESSION #{confession.id}
+              </div>
             </div>
           </div>
         </DialogContent>

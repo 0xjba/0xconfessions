@@ -50,9 +50,9 @@ const ConfessionSearch: React.FC = () => {
 
   return (
     <div 
-      className={`fixed top-4 left-4 z-20 overflow-hidden transition-all duration-300 multicolor-border-purple-blue rounded-full backdrop-blur-lg ${
-        isExpanded ? 'w-64' : 'w-10 h-10'
-      }`}
+      className={`fixed top-4 left-4 z-20 overflow-hidden transition-all duration-300 ${
+        isExpanded ? 'multicolor-border-purple-blue rounded-md w-64' : 'w-10 h-10 rounded-full'
+      } backdrop-blur-lg bg-cyber-black bg-opacity-80`}
     >
       <div className="flex items-center h-10">
         <button
@@ -89,7 +89,7 @@ const ConfessionSearch: React.FC = () => {
       </div>
       
       {isExpanded && searchResult && (
-        <div className="p-3 border-t border-gray-700 mt-2">
+        <div className="p-3 border-t border-gray-700 mt-2 rounded-b-md">
           <p className="text-xs text-white mb-2">Found confession:</p>
           <div className="flex justify-center">
             <ConfessionPill 

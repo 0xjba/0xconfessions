@@ -44,12 +44,12 @@ const Index: React.FC = () => {
       <GlitchOverlay />
       
       {/* Fixed position elements */}
-      <div className="w-full flex justify-between items-center fixed top-4 z-50 px-4">
+      <div className="fixed top-4 left-0 right-0 flex justify-between items-center z-50 px-4">
         {/* Search component - left */}
         <ConfessionSearch />
         
         {/* Total confessions counter - center */}
-        <div className="cyber-text text-sm tracking-wider animate-pulse-soft bg-cyber-black bg-opacity-80 backdrop-blur-lg rounded-full px-4 py-2 border border-gray-700">
+        <div className="cyber-text text-sm tracking-wider animate-pulse-soft bg-cyber-black bg-opacity-80 backdrop-blur-lg rounded-full px-4 py-2 border border-gray-700 absolute left-1/2 transform -translate-x-1/2">
           TOTAL CONFESSIONS: <span className="text-white">{totalConfessions}</span>
         </div>
         
