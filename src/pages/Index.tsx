@@ -5,7 +5,6 @@ import ConfessionInput from '../components/ConfessionInput';
 import ConfessionsList from '../components/ConfessionsList';
 import AnimatedBackground from '../components/AnimatedBackground';
 import NoiseOverlay from '../components/NoiseOverlay';
-import GlitchOverlay from '../components/GlitchOverlay';
 import MobileWarning from '../components/MobileWarning';
 import { useIsMobile } from '../hooks/use-mobile';
 import { useWeb3 } from '../lib/web3';
@@ -38,9 +37,6 @@ const Index: React.FC = () => {
       
       {/* TV noise overlay */}
       <NoiseOverlay />
-      
-      {/* Glitch effect overlay */}
-      <GlitchOverlay />
       
       {/* Connect wallet button */}
       <ConnectWallet />
