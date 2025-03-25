@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import ConnectWallet from '../components/ConnectWallet';
 import ConfessionInput from '../components/ConfessionInput';
@@ -42,7 +43,8 @@ const Index: React.FC = () => {
       {/* Scanlines and glitch effect overlay */}
       <GlitchOverlay />
       
-      {/* Fixed position elements */}
+      {/* Fixed position elements with added glass effect */}
+      <div className="fixed top-0 left-0 right-0 z-40 h-20 bg-cyber-black/40 backdrop-blur-md"></div>
       <div className="fixed top-4 left-0 right-0 flex justify-between items-center z-50 px-4">
         {/* Search component - left */}
         <ConfessionSearch />
