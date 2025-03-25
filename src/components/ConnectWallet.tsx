@@ -54,7 +54,7 @@ const ConnectWallet: React.FC = () => {
                 href="https://faucet.ten.xyz/" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="hover:underline cursor-pointer"
+                className="cursor-pointer"
               >
                 TEN Network
               </a>
