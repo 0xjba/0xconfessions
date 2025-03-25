@@ -36,8 +36,8 @@ const GlitchOverlay: React.FC = () => {
   
   return (
     <>
-      {/* Moving scanlines */}
-      <div className="scanlines-moving fixed inset-0 w-full h-full pointer-events-none z-[1000] mix-blend-overlay" />
+      {/* Moving scanlines - adjusted for better visibility on dark background */}
+      <div className="scanlines-moving fixed inset-0 w-full h-full pointer-events-none z-[1000]" />
       
       {/* Occasional glitch effect */}
       {isGlitching && (
