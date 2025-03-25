@@ -51,7 +51,7 @@ const ConfessionSearch: React.FC = () => {
   return (
     <div 
       className={`fixed top-4 left-4 z-20 overflow-hidden transition-all duration-300 ${
-        isExpanded ? 'multicolor-border-purple-blue rounded-md w-64' : 'w-10 h-10 rounded-full'
+        isExpanded ? 'multicolor-border-purple-blue rounded-md w-48' : 'w-10 h-10 rounded-full'
       } backdrop-blur-lg bg-cyber-black bg-opacity-80`}
     >
       <div className="flex items-center h-10">

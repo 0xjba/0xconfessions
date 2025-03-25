@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import ConfessionPill from './ConfessionPill';
 import { useWeb3 } from '../lib/web3';
@@ -23,7 +22,7 @@ const ConfessionsList: React.FC = () => {
           <h2 className="cyber-text text-xl tracking-wider animate-pulse-soft">
             TOP CONFESSIONS
           </h2>
-          <div className="h-px w-24 bg-cyber-green mx-auto mt-2 animate-glow"></div>
+          <div className="h-px w-24 bg-white mx-auto mt-2 animate-glow"></div>
         </div>
         
         <div className="relative w-full h-[20vh] overflow-y-auto scrollbar-none">
@@ -55,7 +54,7 @@ const ConfessionsList: React.FC = () => {
         <h2 className="cyber-text text-xl tracking-wider animate-pulse-soft">
           RECENT CONFESSIONS
         </h2>
-        <div className="h-px w-24 bg-cyber-green mx-auto mt-2 animate-glow"></div>
+        <div className="h-px w-24 bg-white mx-auto mt-2 animate-glow"></div>
       </div>
       
       {/* Confessions container */}
