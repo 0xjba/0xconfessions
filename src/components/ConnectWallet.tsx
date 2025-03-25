@@ -47,8 +47,8 @@ const ConnectWallet: React.FC = () => {
           {isCorrectNetwork && (
             <div className="half-filled-fluid"></div>
           )}
-          <Fuel className="w-4 h-4 mr-2 relative z-10 group-hover:text-black" />
-          <span className="text-white text-sm relative z-10 group-hover:text-black">
+          <Fuel className="w-4 h-4 mr-2 relative z-10" />
+          <span className="text-white text-sm relative z-10">
             {isCorrectNetwork ? 'TEN Network' : (
               <>
                 Wrong Network
