@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -84,16 +85,85 @@
     position: absolute;
     border-bottom-left-radius: 9999px;
     border-bottom-right-radius: 9999px;
-    animation: fluid-wave 4s ease-in-out infinite alternate, fluid-color-shift 8s ease infinite;
+    animation: 
+      fluid-wave 3s ease-in-out infinite alternate, 
+      fluid-color-shift 8s ease infinite,
+      fluid-up-down 5s ease-in-out infinite;
+    transform-origin: center bottom;
   }
 
   @keyframes fluid-wave {
     0% {
+      clip-path: polygon(
+        0% 0%, 
+        5% 5%, 
+        15% 0%, 
+        25% 5%, 
+        35% 0%, 
+        45% 5%, 
+        55% 0%, 
+        65% 5%, 
+        75% 0%, 
+        85% 5%, 
+        95% 0%, 
+        100% 5%, 
+        100% 100%, 
+        0% 100%
+      );
+    }
+    50% {
+      clip-path: polygon(
+        0% 5%, 
+        5% 0%, 
+        15% 5%, 
+        25% 0%, 
+        35% 5%, 
+        45% 0%, 
+        55% 5%, 
+        65% 0%, 
+        75% 5%, 
+        85% 0%, 
+        95% 5%, 
+        100% 0%, 
+        100% 100%, 
+        0% 100%
+      );
+    }
+    100% {
+      clip-path: polygon(
+        0% 0%, 
+        5% 5%, 
+        15% 0%, 
+        25% 5%, 
+        35% 0%, 
+        45% 5%, 
+        55% 0%, 
+        65% 5%, 
+        75% 0%, 
+        85% 5%, 
+        95% 0%, 
+        100% 5%, 
+        100% 100%, 
+        0% 100%
+      );
+    }
+  }
+
+  @keyframes fluid-up-down {
+    0% {
       height: 45%;
       transform: translateY(0);
     }
-    50% {
+    25% {
       height: 48%;
+      transform: translateY(-3px);
+    }
+    50% {
+      height: 42%;
+      transform: translateY(2px);
+    }
+    75% {
+      height: 46%;
       transform: translateY(-2px);
     }
     100% {
