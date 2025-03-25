@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Confession, useWeb3 } from '../lib/web3';
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { ThumbsUp } from 'lucide-react';
+import { Flame } from 'lucide-react';
 
 interface ConfessionPillProps {
   confession: Confession;
@@ -47,7 +47,7 @@ const ConfessionPill: React.FC<ConfessionPillProps> = ({ confession, index, show
       >
         <span className={`text-white text-xs text-center ${isHovering ? 'text-opacity-100' : 'text-opacity-80'}`}>{truncatedText}</span>
         {showUpvotes && confession.upvotes > 0 && (
-          <div className="absolute -top-2 -right-2 bg-cyber-blue rounded-full px-1 text-[10px] border border-cyber-blue animate-pulse-soft">
+          <div className="absolute -top-2 -right-2 bg-gradient-to-r from-orange-500 to-red-500 rounded-full px-1 text-[10px] border border-transparent animate-pulse-soft">
             {confession.upvotes}
           </div>
         )}
@@ -72,12 +72,12 @@ const ConfessionPill: React.FC<ConfessionPillProps> = ({ confession, index, show
                 <button 
                   onClick={handleUpvote}
                   disabled={hasUpvoted || !connected}
-                  className={`p-1.5 rounded-full transition-all duration-200 ${
-                    hasUpvoted ? 'bg-cyber-green bg-opacity-30 cursor-not-allowed' : connected ? 'bg-cyber-black hover:bg-cyber-green hover:bg-opacity-30 cursor-pointer' : 'bg-cyber-black opacity-50 cursor-not-allowed'
+                  className={`p-1.5 rounded-full transition-all duration-200 mr-8 ${
+                    hasUpvoted ? 'bg-gradient-to-r from-orange-500 to-red-500 bg-opacity-30 cursor-not-allowed' : connected ? 'bg-cyber-black hover:bg-gradient-to-r hover:from-orange-500 hover:to-red-500 hover:bg-opacity-30 cursor-pointer' : 'bg-cyber-black opacity-50 cursor-not-allowed'
                   }`}
                   title={!connected ? "Connect wallet to upvote" : hasUpvoted ? "Already upvoted" : "Upvote this confession"}
                 >
-                  <ThumbsUp size={16} className={hasUpvoted ? 'text-cyber-green' : 'text-white'} />
+                  <Flame size={16} className={hasUpvoted ? 'text-white' : 'text-white'} />
                 </button>
               </div>
             </div>

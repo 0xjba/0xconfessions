@@ -17,13 +17,6 @@ const ConfessionsList: React.FC = () => {
 
   return (
     <div className="w-full flex flex-col">
-      {/* Total confessions counter */}
-      <div className="mb-6 text-center">
-        <div className="cyber-text text-sm tracking-wider animate-pulse-soft">
-          TOTAL CONFESSIONS: <span className="text-cyber-green">{totalConfessions}</span>
-        </div>
-      </div>
-      
       {/* Top confessions section */}
       <div className="mb-8">
         <div className="mb-4 text-center">

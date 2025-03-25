@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Search } from 'lucide-react';
+import { Search, ArrowRight } from 'lucide-react';
 import { useWeb3 } from '../lib/web3';
 import ConfessionPill from './ConfessionPill';
 import { toast } from 'sonner';
@@ -50,13 +50,13 @@ const ConfessionSearch: React.FC = () => {
 
   return (
     <div 
-      className={`fixed top-4 left-4 z-20 overflow-hidden transition-all duration-300 bg-cyber-black bg-opacity-70 backdrop-blur-lg border border-gray-700 rounded-lg ${
+      className={`fixed top-4 left-4 z-20 overflow-hidden transition-all duration-300 multicolor-border-purple-blue rounded-full backdrop-blur-lg ${
         isExpanded ? 'w-64' : 'w-10 h-10'
       }`}
     >
-      <div className="flex items-center">
+      <div className="flex items-center h-10">
         <button
-          className="p-2 text-white hover:text-cyber-green transition-colors"
+          className="p-2 text-white hover:text-cyber-blue transition-colors"
           onClick={() => {
             setIsExpanded(!isExpanded);
             if (!isExpanded) {
@@ -68,16 +68,22 @@ const ConfessionSearch: React.FC = () => {
         </button>
         
         {isExpanded && (
-          <div className="flex-1 py-2 pr-2">
+          <div className="flex-1 py-2 pr-2 flex items-center">
             <input
               type="text"
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder="Confession ID"
-              className="w-full bg-transparent text-white border-b border-gray-700 focus:border-cyber-green focus:outline-none px-1 py-1 text-sm"
+              className="w-full bg-transparent text-white border-b border-gray-700 focus:border-cyber-blue focus:outline-none px-1 py-1 text-sm"
               autoFocus
             />
+            <button 
+              onClick={handleSearch}
+              className="ml-2 bg-transparent text-white hover:text-cyber-blue transition-colors"
+            >
+              <ArrowRight size={18} className="fill-white" />
+            </button>
           </div>
         )}
       </div>

@@ -13,7 +13,7 @@ import { useWeb3 } from '../lib/web3';
 import { Twitter } from 'lucide-react';
 
 const Index: React.FC = () => {
-  const { connected } = useWeb3();
+  const { connected, totalConfessions } = useWeb3();
   const isMobile = useIsMobile();
   const [showMobileWarning, setShowMobileWarning] = useState(false);
   
@@ -43,11 +43,19 @@ const Index: React.FC = () => {
       {/* Scanlines and glitch effect overlay */}
       <GlitchOverlay />
       
-      {/* Search component */}
-      <ConfessionSearch />
-      
-      {/* Connect wallet button */}
-      <ConnectWallet />
+      {/* Fixed position elements */}
+      <div className="w-full flex justify-between items-center fixed top-4 z-50 px-4">
+        {/* Search component - left */}
+        <ConfessionSearch />
+        
+        {/* Total confessions counter - center */}
+        <div className="cyber-text text-sm tracking-wider animate-pulse-soft bg-cyber-black bg-opacity-80 backdrop-blur-lg rounded-full px-4 py-2 border border-gray-700">
+          TOTAL CONFESSIONS: <span className="text-white">{totalConfessions}</span>
+        </div>
+        
+        {/* Connect wallet button - right */}
+        <ConnectWallet />
+      </div>
       
       {/* Header - added pt-24 to increase top padding */}
       <header className="w-full pt-24 pb-8 px-4 flex flex-col items-center">
@@ -61,11 +69,6 @@ const Index: React.FC = () => {
         </div>
         
         <div className="h-px w-32 bg-cyber-green my-4 animate-glow"></div>
-        
-        <p className="cyber-text text-center max-w-md text-sm text-opacity-80">
-          Speak your truth to the void. Confessions stored on-chain. Forever anonymous.
-          <br />Never linked to your identity.
-        </p>
       </header>
       
       {/* Main content */}
