@@ -34,9 +34,7 @@
 
     --radius: 1.5rem;
   }
-}
 
-@layer base {
   * {
     @apply border-border;
   }
@@ -79,15 +77,46 @@
       linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
   }
 
-  /* Fluid animation for TEN Network pill */
-  .fluid-animation {
+  /* Half-filled fluid animation for TEN Network pill */
+  .half-filled-fluid {
     background: linear-gradient(270deg, #00FFD1, #00FF41);
     background-size: 400% 400%;
-    opacity: 0.2;
-    transition: opacity 0.3s ease;
-    border-radius: 9999px;
-    animation: fluid-move 8s ease infinite, fluid-wobble 5s ease-in-out infinite alternate;
-    filter: blur(8px);
+    position: absolute;
+    border-bottom-left-radius: 9999px;
+    border-bottom-right-radius: 9999px;
+    animation: fluid-wave 4s ease-in-out infinite alternate, fluid-color-shift 8s ease infinite;
+  }
+
+  @keyframes fluid-wave {
+    0% {
+      height: 45%;
+      transform: translateY(0);
+    }
+    50% {
+      height: 48%;
+      transform: translateY(-2px);
+    }
+    100% {
+      height: 45%;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fluid-color-shift {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  /* Remove the old fluid animation */
+  .fluid-animation {
+    display: none;
   }
 
   @keyframes fluid-move {
