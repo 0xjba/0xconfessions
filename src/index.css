@@ -79,6 +79,41 @@
       linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
   }
 
+  /* Fluid animation for TEN Network pill */
+  .fluid-animation {
+    background: linear-gradient(270deg, #00FFD1, #00FF41);
+    background-size: 400% 400%;
+    opacity: 0.2;
+    transition: opacity 0.3s ease;
+    border-radius: 9999px;
+    animation: fluid-move 8s ease infinite, fluid-wobble 5s ease-in-out infinite alternate;
+    filter: blur(8px);
+  }
+
+  @keyframes fluid-move {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  @keyframes fluid-wobble {
+    0% {
+      transform: scale(1.2) translateX(-5%) translateY(-2%);
+    }
+    50% {
+      transform: scale(1.2) translateX(5%) translateY(2%);
+    }
+    100% {
+      transform: scale(1.2) translateX(-5%) translateY(-2%);
+    }
+  }
+
   /* Multicolored border styles with glow effects */
   .multicolor-border-purple-blue {
     @apply relative border border-transparent;
