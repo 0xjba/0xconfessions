@@ -1,18 +1,26 @@
+
 import React, { useEffect } from 'react';
 import ConfessionPill from './ConfessionPill';
 import { useWeb3 } from '../lib/web3';
 
 const ConfessionsList: React.FC = () => {
-  const { confessions, topConfessions, totalConfessions, loading, refreshData } = useWeb3();
+  const { confessions, topConfessions, totalConfessions, loading, refreshData, connected } = useWeb3();
 
-  // Refresh confessions periodically
+  // Refresh confessions periodically and when connection state changes
   useEffect(() => {
-    const interval = setInterval(() => {
+    // Initial data fetch
+    if (connected) {
       refreshData();
+    }
+    
+    const interval = setInterval(() => {
+      if (connected) {
+        refreshData();
+      }
     }, 15000); // Every 15 seconds
     
     return () => clearInterval(interval);
-  }, [refreshData]);
+  }, [refreshData, connected]);
 
   return (
     <div className="w-full flex flex-col">

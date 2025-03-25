@@ -5,7 +5,7 @@ import { toast } from "sonner";
 
 const ConfessionInput: React.FC = () => {
   const [confession, setConfession] = useState('');
-  const { connected, loading, submitConfession } = useWeb3();
+  const { connected, loading, submitConfession, refreshData } = useWeb3();
   const maxLength = 280;
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isHovering, setIsHovering] = useState(false);
@@ -34,6 +34,8 @@ const ConfessionInput: React.FC = () => {
     }
     
     await submitConfession(confession);
+    // Explicitly refresh data after confession submission
+    await refreshData();
     setConfession('');
   };
 

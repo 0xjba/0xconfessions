@@ -76,6 +76,7 @@ export const useWeb3 = () => {
   useEffect(() => {
     if (connected && chainId === '0x1bb') {
       setupContract().then(() => {
+        // Make sure to refresh all data when connected to the right network
         refreshData();
       });
     }
@@ -129,9 +130,11 @@ export const useWeb3 = () => {
         setConnected(true);
         const currentChain = await checkChainId();
         if (currentChain === '0x1bb') {
-          await setupContract();
-          // Immediately fetch confessions when wallet connects to correct network
-          await refreshData();
+          const contractInstance = await setupContract();
+          // Immediately fetch all confessions data when wallet connects to correct network
+          if (contractInstance) {
+            await refreshData();
+          }
         }
         toast.success("Wallet connected successfully!");
       }
@@ -198,17 +201,31 @@ export const useWeb3 = () => {
       }));
 
       setConfessions(formattedConfessions);
+      console.log(`Fetched ${formattedConfessions.length} recent confessions`);
     } catch (error) {
       console.error("Error fetching confessions:", error);
       toast.error("Failed to load confessions");
     }
-  }, [contract, chainId]);
+  }, [contract, chainId, setupContract]);
 
   const fetchTopConfessions = useCallback(async () => {
-    if (chainId !== '0x1bb' || !contract) return;
+    if (chainId !== '0x1bb') {
+      setTopConfessions([]);
+      return;
+    }
+    
+    // Make sure we have a valid contract instance
+    let contractInstance = contract;
+    if (!contractInstance) {
+      contractInstance = await setupContract();
+      if (!contractInstance) {
+        console.error("Cannot fetch top confessions: Contract not initialized");
+        return;
+      }
+    }
     
     try {
-      const result = await contract.getTopConfessions();
+      const result = await contractInstance.getTopConfessions();
       
       const formattedTopConfessions: Confession[] = result.map((conf: any) => ({
         id: Number(conf.id),
@@ -218,23 +235,41 @@ export const useWeb3 = () => {
       }));
 
       setTopConfessions(formattedTopConfessions);
+      console.log(`Fetched ${formattedTopConfessions.length} top confessions`);
     } catch (error) {
       console.error("Error fetching top confessions:", error);
     }
-  }, [contract, chainId]);
+  }, [contract, chainId, setupContract]);
 
   const fetchTotalConfessions = useCallback(async () => {
-    if (chainId !== '0x1bb' || !contract) return;
+    if (chainId !== '0x1bb') {
+      // Reset counter if not on correct network
+      setTotalConfessions(0);
+      return;
+    }
+    
+    // Make sure we have a valid contract instance
+    let contractInstance = contract;
+    if (!contractInstance) {
+      contractInstance = await setupContract();
+      if (!contractInstance) {
+        console.error("Cannot fetch total confessions count: Contract not initialized");
+        return;
+      }
+    }
     
     try {
-      const count = await contract.totalConfessionsCount();
-      setTotalConfessions(Number(count));
+      const count = await contractInstance.totalConfessionsCount();
+      const countNumber = Number(count);
+      setTotalConfessions(countNumber);
+      console.log(`Total confessions count: ${countNumber}`);
     } catch (error) {
       console.error("Error fetching total confessions count:", error);
     }
-  }, [contract, chainId]);
+  }, [contract, chainId, setupContract]);
 
   const refreshData = useCallback(async () => {
+    console.log("Refreshing all confession data...");
     setLoading(true);
     try {
       await Promise.all([
@@ -345,7 +380,7 @@ export const useWeb3 = () => {
         toast.success("Confession confirmed on the blockchain!");
       }
       
-      // Immediately refresh data after submitting
+      // Immediately refresh all data after submitting
       await refreshData();
     } catch (error: any) {
       console.error("Error submitting confession:", error);
@@ -383,6 +418,7 @@ export const useWeb3 = () => {
     totalConfessions,
     chainId,
     connectWallet,
+    submitConfission: submitConfession, // Aliasing for backward compatibility if needed
     submitConfession,
     upvoteConfession,
     checkIfUserHasUpvoted,
