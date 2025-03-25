@@ -7,11 +7,11 @@ const GlitchOverlay: React.FC = () => {
   useEffect(() => {
     // Set up random glitch effect intervals
     const minInterval = 2000; // 2 seconds
-    const maxInterval = 10000; // 10 seconds
+    const maxInterval = 8000; // 8 seconds (reduced from 10s for more frequent glitches)
     
     const triggerGlitch = () => {
-      // Calculate random glitch duration between 100-500ms
-      const glitchDuration = Math.random() * 400 + 100;
+      // Calculate random glitch duration between 150-600ms (increased duration)
+      const glitchDuration = Math.random() * 450 + 150;
       
       setIsGlitching(true);
       
@@ -26,7 +26,7 @@ const GlitchOverlay: React.FC = () => {
     };
     
     // Start the first glitch after a random delay
-    const initialDelay = Math.random() * 5000;
+    const initialDelay = Math.random() * 3000; // Reduced from 5000ms
     const timerId = setTimeout(triggerGlitch, initialDelay);
     
     return () => {
@@ -36,8 +36,8 @@ const GlitchOverlay: React.FC = () => {
   
   return (
     <>
-      {/* Permanent scanlines */}
-      <div className="scanlines fixed inset-0 w-full h-full pointer-events-none z-[1000] mix-blend-overlay" />
+      {/* Moving scanlines */}
+      <div className="scanlines-moving fixed inset-0 w-full h-full pointer-events-none z-[1000] mix-blend-overlay" />
       
       {/* Occasional glitch effect */}
       {isGlitching && (

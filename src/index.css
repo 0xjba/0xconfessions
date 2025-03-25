@@ -431,6 +431,81 @@
       clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
     }
   }
+
+  /* Moving scan lines effect */
+  .scanlines-moving {
+    background: linear-gradient(
+      to bottom,
+      transparent 50%,
+      rgba(0, 0, 0, 0.5) 51%
+    );
+    background-size: 100% 4px;
+    opacity: 0.5;
+    animation: scanline-move 8s linear infinite;
+  }
+  
+  @keyframes scanline-move {
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: 0 100%;
+    }
+  }
+  
+  /* Improved glitch effect */
+  .glitch-effect {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 255, 65, 0.1);
+    opacity: 0.9;
+    mix-blend-mode: overlay;
+    animation: glitch-animation 0.15s ease infinite;
+    box-shadow: inset 0 0 100px rgba(0, 255, 65, 0.3);
+    z-index: 1001;
+  }
+  
+  @keyframes glitch-animation {
+    0% {
+      transform: translate(0);
+      clip-path: polygon(0 0, 100% 0, 100% 5%, 0 5%);
+    }
+    10% {
+      clip-path: polygon(0 15%, 100% 15%, 100% 20%, 0 20%);
+    }
+    20% {
+      clip-path: polygon(0 30%, 100% 30%, 100% 35%, 0 35%);
+    }
+    30% {
+      clip-path: polygon(0 45%, 100% 45%, 100% 50%, 0 50%);
+    }
+    40% {
+      clip-path: polygon(0 60%, 100% 60%, 100% 65%, 0 65%);
+    }
+    50% {
+      clip-path: polygon(0 75%, 100% 75%, 100% 80%, 0 80%);
+    }
+    60% {
+      clip-path: polygon(0 90%, 100% 90%, 100% 95%, 0 95%);
+    }
+    70% {
+      transform: translate(-5px);
+    }
+    80% {
+      transform: translate(5px);
+    }
+    90% {
+      transform: translate(-2px, 2px);
+      background: rgba(255, 0, 65, 0.2); /* Add color shift during glitch */
+    }
+    100% {
+      transform: translate(0);
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    }
+  }
 }
 
 /* Overrides and custom elements */
