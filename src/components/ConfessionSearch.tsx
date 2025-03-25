@@ -51,12 +51,12 @@ const ConfessionSearch: React.FC = () => {
   return (
     <div 
       className={`fixed top-4 left-4 z-20 overflow-hidden transition-all duration-300 ${
-        isExpanded ? 'bg-gradient-to-r from-orange-500 to-red-500 rounded-md w-auto h-auto' : 'w-10 h-10 rounded-full bg-cyber-black bg-opacity-80'
-      }`}
+        isExpanded ? 'multicolor-border-purple-blue rounded-md w-64' : 'w-10 h-10 rounded-full'
+      } backdrop-blur-lg bg-cyber-black bg-opacity-80`}
     >
-      <div className={`flex items-center h-10 ${isExpanded ? 'px-2' : ''}`}>
+      <div className="flex items-center h-10">
         <button
-          className={`p-2 text-white transition-colors ${isExpanded ? 'hover:text-white' : 'hover:text-cyber-blue'}`}
+          className="p-2 text-white hover:text-cyber-blue transition-colors"
           onClick={() => {
             setIsExpanded(!isExpanded);
             if (!isExpanded) {
@@ -75,21 +75,21 @@ const ConfessionSearch: React.FC = () => {
               onChange={(e) => setSearchInput(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder="Confession ID"
-              className="w-full bg-transparent text-white border-b border-white focus:border-white focus:outline-none px-1 py-1 text-sm"
+              className="w-full bg-transparent text-white border-b border-gray-700 focus:border-cyber-blue focus:outline-none px-1 py-1 text-sm"
               autoFocus
             />
             <button 
               onClick={handleSearch}
-              className="ml-2 bg-transparent text-white hover:text-white transition-colors"
+              className="ml-2 bg-transparent text-white hover:text-cyber-blue transition-colors"
             >
-              <ArrowRight size={18} className="text-white" />
+              <ArrowRight size={18} className="fill-white" />
             </button>
           </div>
         )}
       </div>
       
       {isExpanded && searchResult && (
-        <div className="p-3 bg-cyber-black bg-opacity-90 backdrop-blur-lg border-t border-gray-700 mt-0 rounded-b-sm">
+        <div className="p-3 border-t border-gray-700 mt-2 rounded-b-md">
           <p className="text-xs text-white mb-2">Found confession:</p>
           <div className="flex justify-center">
             <ConfessionPill 

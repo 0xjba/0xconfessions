@@ -48,15 +48,13 @@ const Index: React.FC = () => {
         {/* Search component - left */}
         <ConfessionSearch />
         
-        {/* Connect wallet button - right */}
-        <ConnectWallet />
-      </div>
-      
-      {/* Total confessions counter - now absolute centered */}
-      <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50">
-        <div className="cyber-text text-sm tracking-wider">
+        {/* Total confessions counter - center */}
+        <div className="cyber-text text-sm tracking-wider animate-pulse-soft bg-cyber-black bg-opacity-80 backdrop-blur-lg rounded-full px-4 py-2 border border-gray-700 absolute left-1/2 transform -translate-x-1/2">
           TOTAL CONFESSIONS: <span className="text-white">{totalConfessions}</span>
         </div>
+        
+        {/* Connect wallet button - right */}
+        <ConnectWallet />
       </div>
       
       {/* Header - added pt-24 to increase top padding */}

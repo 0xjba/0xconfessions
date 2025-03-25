@@ -1,7 +1,8 @@
+
 import React, { useState, useEffect } from 'react';
 import { Confession, useWeb3 } from '../lib/web3';
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { ArrowUp, X } from 'lucide-react';
+import { Flame, X } from 'lucide-react';
 
 interface ConfessionPillProps {
   confession: Confession;
@@ -56,6 +57,7 @@ const ConfessionPill: React.FC<ConfessionPillProps> = ({ confession, index, show
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent 
           className="bg-cyber-black bg-opacity-90 backdrop-blur-lg border border-gray-700 max-w-md max-h-[400px] p-0 rounded-md"
+          closeButtonClassName="text-white hover:text-white hover:bg-opacity-20 hover:opacity-100 transition-all duration-300"
         >
           <div className="p-4 flex flex-col h-full">
             <div className="mb-3 flex items-center justify-between relative">
@@ -64,7 +66,7 @@ const ConfessionPill: React.FC<ConfessionPillProps> = ({ confession, index, show
                 <span className="text-xs text-white text-opacity-70">{timeAgo}</span>
               </div>
               <X 
-                className="text-white hover:text-gray-300 cursor-pointer" 
+                className="absolute -top-2 -right-2 cursor-pointer text-white hover:text-gray-300 transition-colors" 
                 size={18} 
                 onClick={() => setIsOpen(false)} 
               />
@@ -81,11 +83,11 @@ const ConfessionPill: React.FC<ConfessionPillProps> = ({ confession, index, show
                   onClick={handleUpvote}
                   disabled={hasUpvoted || !connected}
                   className={`p-1.5 rounded-full transition-all duration-200 ${
-                    hasUpvoted ? 'text-gray-500 cursor-not-allowed' : connected ? 'text-white hover:text-cyber-blue cursor-pointer' : 'text-gray-500 cursor-not-allowed'
+                    hasUpvoted ? 'bg-gradient-to-r from-orange-500 to-red-500 bg-opacity-30 cursor-not-allowed' : connected ? 'bg-cyber-black hover:bg-gradient-to-r hover:from-orange-500 hover:to-red-500 hover:bg-opacity-30 cursor-pointer' : 'bg-cyber-black opacity-50 cursor-not-allowed'
                   }`}
                   title={!connected ? "Connect wallet to upvote" : hasUpvoted ? "Already upvoted" : "Upvote this confession"}
                 >
-                  <ArrowUp size={16} className="border border-current rounded-full p-0.5" />
+                  <Flame size={16} className="text-white" />
                 </button>
               </div>
               <div className="text-xs text-white text-opacity-50">
