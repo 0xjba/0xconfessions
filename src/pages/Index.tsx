@@ -49,7 +49,7 @@ const Index: React.FC = () => {
         <ConfessionSearch />
         
         {/* Total confessions counter - center */}
-        <div className="cyber-text text-sm tracking-wider animate-pulse-soft bg-cyber-black bg-opacity-80 backdrop-blur-lg rounded-full px-4 py-2 border border-gray-700 absolute left-1/2 transform -translate-x-1/2">
+        <div className="cyber-text text-sm tracking-wider animate-pulse-soft absolute left-1/2 transform -translate-x-1/2">
           TOTAL CONFESSIONS: <span className="text-white">{totalConfessions}</span>
         </div>
         
