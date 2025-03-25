@@ -1,15 +1,24 @@
+
 import React, { useState, useEffect } from 'react';
 import { Confession, useWeb3 } from '../lib/web3';
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { ArrowUp, X } from 'lucide-react';
 
 interface ConfessionPillProps {
   confession: Confession;
   index: number;
   showUpvotes?: boolean;
+  customUpvoteIcon?: React.ReactNode;
+  upvotePosition?: 'bottom-left' | 'top-right';
 }
 
-const ConfessionPill: React.FC<ConfessionPillProps> = ({ confession, index, showUpvotes = false }) => {
+const ConfessionPill: React.FC<ConfessionPillProps> = ({ 
+  confession, 
+  index, 
+  showUpvotes = false,
+  customUpvoteIcon,
+  upvotePosition = 'top-right'
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
   const [hasUpvoted, setHasUpvoted] = useState(false);
@@ -57,6 +66,7 @@ const ConfessionPill: React.FC<ConfessionPillProps> = ({ confession, index, show
         <DialogContent 
           className="bg-cyber-black bg-opacity-90 backdrop-blur-lg border border-gray-700 max-w-md max-h-[400px] p-0 rounded-md"
         >
+          <DialogTitle className="sr-only">Confession #{confession.id}</DialogTitle>
           <div className="p-4 flex flex-col h-full">
             <div className="mb-3 flex items-center justify-between relative">
               <div className="flex items-center">
