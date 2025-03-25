@@ -5,13 +5,13 @@ const GlitchOverlay: React.FC = () => {
   const [isGlitching, setIsGlitching] = useState(false);
   
   useEffect(() => {
-    // Random glitching intervals
+    // More frequent glitching intervals
     const glitchInterval = setInterval(() => {
-      if (Math.random() > 0.7) { // 30% chance of glitching
+      if (Math.random() > 0.5) { // 50% chance of glitching (increased from 30%)
         setIsGlitching(true);
-        setTimeout(() => setIsGlitching(false), 100 + Math.random() * 200); // Random duration
+        setTimeout(() => setIsGlitching(false), 150 + Math.random() * 300); // Longer duration
       }
-    }, 2000); // Check every 2 seconds
+    }, 1000); // Check every 1 second (reduced from 2s)
     
     return () => clearInterval(glitchInterval);
   }, []);
