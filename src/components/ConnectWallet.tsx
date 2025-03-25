@@ -1,6 +1,7 @@
+
 import React, { useEffect, useState } from 'react';
 import { useWeb3 } from '../lib/web3';
-import { Droplet, PlusCircle, ExternalLink } from 'lucide-react';
+import { Droplet, PlusCircle, ExternalLink, Shower } from 'lucide-react';
 
 const ConnectWallet: React.FC = () => {
   const { connected, account, loading, connectWallet, chainId, refreshConfessions } = useWeb3();
@@ -43,7 +44,7 @@ const ConnectWallet: React.FC = () => {
     <div className="fixed top-4 right-4 z-50 flex gap-3">
       {connected && (
         <div className={`multicolor-border-${isCorrectNetwork ? 'teal-green' : 'orange-pink'} rounded-full px-4 py-2 flex items-center justify-center group bg-cyber-black bg-opacity-80 backdrop-blur-lg relative`}>
-          <Droplet className="w-4 h-4 mr-2" />
+          <Shower className="w-4 h-4 mr-2" />
           <span className="text-white text-sm">
             {isCorrectNetwork ? 'TEN Network' : (
               <>
