@@ -99,7 +99,7 @@ const Index: React.FC = () => {
             rel="noopener noreferrer"
             className="underline hover:text-cyber-blue transition-colors duration-200 inline-flex items-center gap-1"
           >
-            Github Repo <GitHub className="w-3 h-3 inline" />
+            Github Repo
           </a>
         </div>
       </footer>
