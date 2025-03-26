@@ -44,7 +44,7 @@ const ConfessionsList: React.FC = () => {
             </div>
           ) : (
             // Reduced gap from gap-4 to gap-2
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 p-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-1 p-4">
               {topConfessions.map((confession, index) => (
                 <ConfessionPill 
                   key={`top-${confession.id}-${confession.timestamp}`} 
@@ -78,7 +78,7 @@ const ConfessionsList: React.FC = () => {
           </div>
         ) : (
           // Reduced gap from gap-4 to gap-2
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 p-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-1 p-4">
             {confessions.map((confession, index) => (
               <ConfessionPill 
                 key={`recent-${confession.id}-${confession.timestamp}`} 
