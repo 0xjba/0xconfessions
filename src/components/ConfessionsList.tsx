@@ -1,26 +1,109 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback, useRef } from 'react';
 import ConfessionPill from './ConfessionPill';
 import { useWeb3 } from '../lib/web3';
 
 const ConfessionsList: React.FC = () => {
   const { confessions, topConfessions, totalConfessions, loading, refreshData, connected } = useWeb3();
+  const refreshTimerRef = useRef<number | null>(null);
 
-  // Refresh confessions periodically and when connection state changes
-  useEffect(() => {
-    // Initial data fetch
+  // Memoized refresh function to prevent unnecessary re-renders
+  const handleRefresh = useCallback(() => {
     if (connected) {
       refreshData();
     }
-    
-    const interval = setInterval(() => {
-      if (connected) {
-        refreshData();
-      }
-    }, 15000); // Every 15 seconds
-    
-    return () => clearInterval(interval);
   }, [refreshData, connected]);
+
+  // Optimized refresh mechanism
+  useEffect(() => {
+    // Initial data fetch only if connected
+    if (connected) {
+      handleRefresh();
+    }
+    
+    // Clear any existing interval first to prevent memory leaks
+    if (refreshTimerRef.current) {
+      clearInterval(refreshTimerRef.current);
+      refreshTimerRef.current = null;
+    }
+    
+    // Only set interval if connected
+    if (connected) {
+      refreshTimerRef.current = window.setInterval(handleRefresh, 15000);
+    }
+    
+    // Cleanup function to prevent memory leaks
+    return () => {
+      if (refreshTimerRef.current) {
+        clearInterval(refreshTimerRef.current);
+        refreshTimerRef.current = null;
+      }
+    };
+  }, [handleRefresh, connected]);
+
+  // Render optimized grid for top confessions
+  const renderTopConfessions = () => {
+    if (loading && topConfessions.length === 0) {
+      return (
+        <div className="w-full h-full flex items-center justify-center">
+          <div className="cyber-text animate-pulse-soft">Loading top confessions...</div>
+        </div>
+      );
+    }
+    
+    if (topConfessions.length === 0) {
+      return (
+        <div className="w-full h-full flex items-center justify-center">
+          <div className="cyber-text text-opacity-70">No top confessions yet.</div>
+        </div>
+      );
+    }
+    
+    return (
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-1 p-4">
+        {topConfessions.map((confession, index) => (
+          <ConfessionPill 
+            key={`top-${confession.id}-${confession.timestamp}`} 
+            confession={confession} 
+            index={index}
+            showUpvotes={true}
+          />
+        ))}
+      </div>
+    );
+  };
+
+  // Render optimized grid for recent confessions
+  const renderRecentConfessions = () => {
+    if (loading && confessions.length === 0) {
+      return (
+        <div className="w-full h-full flex items-center justify-center">
+          <div className="cyber-text animate-pulse-soft">Loading confessions...</div>
+        </div>
+      );
+    }
+    
+    if (confessions.length === 0) {
+      return (
+        <div className="w-full h-full flex items-center justify-center">
+          <div className="cyber-text text-opacity-70">No confessions yet. Be the first to confess.</div>
+        </div>
+      );
+    }
+    
+    return (
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-1 p-4">
+        {confessions.map((confession, index) => (
+          <ConfessionPill 
+            key={`recent-${confession.id}-${confession.timestamp}`} 
+            confession={confession} 
+            index={index}
+            showUpvotes={true}
+          />
+        ))}
+      </div>
+    );
+  };
 
   return (
     <div className="w-full flex flex-col">
@@ -34,27 +117,7 @@ const ConfessionsList: React.FC = () => {
         </div>
         
         <div className="relative w-full h-[20vh] overflow-y-auto scrollbar-none">
-          {loading && topConfessions.length === 0 ? (
-            <div className="w-full h-full flex items-center justify-center">
-              <div className="cyber-text animate-pulse-soft">Loading top confessions...</div>
-            </div>
-          ) : topConfessions.length === 0 ? (
-            <div className="w-full h-full flex items-center justify-center">
-              <div className="cyber-text text-opacity-70">No top confessions yet.</div>
-            </div>
-          ) : (
-            // Changed gap to be equal in all directions (gap-1)
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-1 p-4">
-              {topConfessions.map((confession, index) => (
-                <ConfessionPill 
-                  key={`top-${confession.id}-${confession.timestamp}`} 
-                  confession={confession} 
-                  index={index}
-                  showUpvotes={true}
-                />
-              ))}
-            </div>
-          )}
+          {renderTopConfessions()}
         </div>
       </div>
       
@@ -68,27 +131,7 @@ const ConfessionsList: React.FC = () => {
       
       {/* Confessions container with uniform gap */}
       <div className="relative w-full h-[40vh] overflow-y-auto scrollbar-none">
-        {loading && confessions.length === 0 ? (
-          <div className="w-full h-full flex items-center justify-center">
-            <div className="cyber-text animate-pulse-soft">Loading confessions...</div>
-          </div>
-        ) : confessions.length === 0 ? (
-          <div className="w-full h-full flex items-center justify-center">
-            <div className="cyber-text text-opacity-70">No confessions yet. Be the first to confess.</div>
-          </div>
-        ) : (
-            // Changed gap to be equal in all directions (gap-1)
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-1 p-4">
-            {confessions.map((confession, index) => (
-              <ConfessionPill 
-                key={`recent-${confession.id}-${confession.timestamp}`} 
-                confession={confession} 
-                index={index}
-                showUpvotes={true}
-              />
-            ))}
-          </div>
-        )}
+        {renderRecentConfessions()}
       </div>
     </div>
   );
