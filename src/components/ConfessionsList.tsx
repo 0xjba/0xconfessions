@@ -43,7 +43,7 @@ const ConfessionsList: React.FC = () => {
               <div className="cyber-text text-opacity-70">No top confessions yet.</div>
             </div>
           ) : (
-            // Reduced gap from gap-4 to gap-2
+            // Changed gap to be equal in all directions (gap-1)
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-1 p-4">
               {topConfessions.map((confession, index) => (
                 <ConfessionPill 
@@ -66,7 +66,7 @@ const ConfessionsList: React.FC = () => {
         <div className="h-px w-24 bg-white mx-auto mt-2 animate-glow"></div>
       </div>
       
-      {/* Confessions container with reduced gap */}
+      {/* Confessions container with uniform gap */}
       <div className="relative w-full h-[40vh] overflow-y-auto scrollbar-none">
         {loading && confessions.length === 0 ? (
           <div className="w-full h-full flex items-center justify-center">
@@ -77,8 +77,8 @@ const ConfessionsList: React.FC = () => {
             <div className="cyber-text text-opacity-70">No confessions yet. Be the first to confess.</div>
           </div>
         ) : (
-          // Reduced gap from gap-4 to gap-2
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-1 p-4">
+            // Changed gap to be equal in all directions (gap-1)
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-1 p-4">
             {confessions.map((confession, index) => (
               <ConfessionPill 
                 key={`recent-${confession.id}-${confession.timestamp}`} 
