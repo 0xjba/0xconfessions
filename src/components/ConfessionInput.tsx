@@ -51,9 +51,9 @@ const ConfessionInput: React.FC = () => {
           loop 
         />
         
-        {/* Input pill */}
+        {/* Modified input container and input field to properly handle text overflow */}
         <div 
-          className={`w-full relative multicolor-border-blue-purple flex items-center group overflow-hidden mb-2 rounded-full transition-all duration-300 bg-cyber-black bg-opacity-80 backdrop-blur-lg ${isHovering ? 'animate-glow-pulsate' : ''}`}
+          className={`w-full relative multicolor-border-blue-purple flex items-center group overflow-visible mb-2 rounded-full transition-all duration-300 bg-cyber-black bg-opacity-80 backdrop-blur-lg ${isHovering ? 'animate-glow-pulsate' : ''}`}
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
         >
@@ -62,9 +62,10 @@ const ConfessionInput: React.FC = () => {
             value={confession}
             onChange={(e) => setConfession(e.target.value)}
             placeholder="TYPE YOUR CONFESSION HERE..."
-            className="w-full bg-transparent border-none outline-none text-white py-3 px-6 text-base sm:text-lg"
+            className="w-full bg-transparent border-none outline-none text-white py-3 px-6 text-base sm:text-lg overflow-visible"
             maxLength={maxLength}
             disabled={loading}
+            style={{ textOverflow: 'clip' }}
           />
           
           <button

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Confession, useWeb3 } from '../lib/web3';
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
@@ -16,8 +15,8 @@ const ConfessionPill: React.FC<ConfessionPillProps> = ({ confession, index, show
   const [hasUpvoted, setHasUpvoted] = useState(false);
   const { upvoteConfession, checkIfUserHasUpvoted, connected } = useWeb3();
   
-  const truncatedText = confession.text.length > 6 
-    ? `${confession.text.substring(0, 6)}...` 
+  const truncatedText = confession.text.length > 140 
+    ? `${confession.text.substring(0, 140)}...` 
     : confession.text;
   
   const timestamp = new Date(confession.timestamp * 1000);
@@ -38,14 +37,13 @@ const ConfessionPill: React.FC<ConfessionPillProps> = ({ confession, index, show
 
   return (
     <>
-      {/* Pill that stays as a pill */}
       <div 
-        className={`relative transition-all duration-300 bg-cyber-black bg-opacity-80 backdrop-blur-lg border ${isHovering ? 'border-white' : 'border-gray-700'} rounded-lg p-1.5 flex items-center justify-center cursor-pointer`}
+        className={`relative transition-all duration-300 bg-cyber-black bg-opacity-80 backdrop-blur-lg border ${isHovering ? 'border-white' : 'border-gray-700'} rounded-md p-1 flex items-start justify-start cursor-pointer min-h-[40px] w-full`}
         onClick={() => setIsOpen(true)}
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
       >
-        <span className={`text-white text-xs text-center ${isHovering ? 'text-opacity-100' : 'text-opacity-80'}`}>{truncatedText}</span>
+        <span className={`text-white text-xs text-left ${isHovering ? 'text-opacity-100' : 'text-opacity-80'} line-clamp-3`}>{truncatedText}</span>
         {showUpvotes && confession.upvotes > 0 && (
           <div className="absolute -top-2 -right-2 bg-gradient-to-r from-orange-500 to-red-500 rounded-full px-1 text-[10px] border border-transparent animate-pulse-soft">
             {confession.upvotes}
@@ -53,7 +51,6 @@ const ConfessionPill: React.FC<ConfessionPillProps> = ({ confession, index, show
         )}
       </div>
 
-      {/* Dialog for expanded view */}
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent 
           className="bg-cyber-black bg-opacity-90 backdrop-blur-lg border border-gray-700 max-w-md max-h-[400px] p-0 rounded-md"
@@ -102,7 +99,6 @@ const ConfessionPill: React.FC<ConfessionPillProps> = ({ confession, index, show
   );
 };
 
-// Helper function to format timeago
 function getTimeAgo(date: Date): string {
   const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
   
