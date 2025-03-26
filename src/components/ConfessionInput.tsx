@@ -65,7 +65,7 @@ const ConfessionInput: React.FC = () => {
               className="w-full bg-transparent border-none outline-none text-white py-3 px-6 text-base sm:text-lg"
               maxLength={maxLength}
               disabled={loading}
-              style={{ paddingRight: "100px" }} // Add padding to prevent text from flowing under button
+              style={{ paddingRight: "70px" }}
             />
             
             {/* Character counter - made more dim */}
