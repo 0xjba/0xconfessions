@@ -92,6 +92,15 @@ const Index: React.FC = () => {
           >
             0XJBA <Twitter className="w-3 h-3 inline" />
           </a>
+          <span className="mx-1">|</span>
+          <a 
+            href="https://github.com/0xjba/0xconfessions" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="underline hover:text-cyber-blue transition-colors duration-200 inline-flex items-center gap-1"
+          >
+            Github Repo <GitHub className="w-3 h-3 inline" />
+          </a>
         </div>
       </footer>
     </div>
