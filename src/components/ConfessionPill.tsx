@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Confession, useWeb3 } from '../lib/web3';
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
@@ -15,8 +16,9 @@ const ConfessionPill: React.FC<ConfessionPillProps> = ({ confession, index, show
   const [hasUpvoted, setHasUpvoted] = useState(false);
   const { upvoteConfession, checkIfUserHasUpvoted, connected } = useWeb3();
   
-  const truncatedText = confession.text.length > 140 
-    ? `${confession.text.substring(0, 140)}...` 
+  // Reduced from 140 to 70 characters
+  const truncatedText = confession.text.length > 70 
+    ? `${confession.text.substring(0, 70)}...` 
     : confession.text;
   
   const timestamp = new Date(confession.timestamp * 1000);
@@ -38,7 +40,7 @@ const ConfessionPill: React.FC<ConfessionPillProps> = ({ confession, index, show
   return (
     <>
       <div 
-        className={`relative transition-all duration-300 bg-cyber-black bg-opacity-80 backdrop-blur-lg border ${isHovering ? 'border-white' : 'border-gray-700'} rounded-md p-1 flex items-start justify-start cursor-pointer min-h-[40px] w-full`}
+        className={`relative transition-all duration-300 bg-cyber-black bg-opacity-80 backdrop-blur-lg border ${isHovering ? 'border-white' : 'border-gray-700'} rounded-md p-2.5 flex items-start justify-start cursor-pointer min-h-[60px] w-full max-w-[160px]`}
         onClick={() => setIsOpen(true)}
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}

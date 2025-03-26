@@ -43,8 +43,8 @@ const ConfessionsList: React.FC = () => {
               <div className="cyber-text text-opacity-70">No top confessions yet.</div>
             </div>
           ) : (
-            // Updated grid layout to accommodate larger, more rectangular pills
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 p-4">
+            // Updated grid layout for shorter and wider pills
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 p-4">
               {topConfessions.map((confession, index) => (
                 <ConfessionPill 
                   key={`top-${confession.id}-${confession.timestamp}`} 
@@ -77,8 +77,8 @@ const ConfessionsList: React.FC = () => {
             <div className="cyber-text text-opacity-70">No confessions yet. Be the first to confess.</div>
           </div>
         ) : (
-          // Updated grid layout to accommodate larger, more rectangular pills
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 p-4">
+          // Updated grid layout for shorter and wider pills
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 p-4">
             {confessions.map((confession, index) => (
               <ConfessionPill 
                 key={`recent-${confession.id}-${confession.timestamp}`} 
