@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { useWeb3 } from '../lib/web3';
 import { toast } from "sonner";
@@ -51,40 +50,44 @@ const ConfessionInput: React.FC = () => {
           loop 
         />
         
-        {/* Modified input container and input field to properly handle text overflow */}
+        {/* Modified input container with proper padding for the button */}
         <div 
           className={`w-full relative multicolor-border-blue-purple flex items-center group overflow-visible mb-2 rounded-full transition-all duration-300 bg-cyber-black bg-opacity-80 backdrop-blur-lg ${isHovering ? 'animate-glow-pulsate' : ''}`}
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
         >
-          <input
-            type="text"
-            value={confession}
-            onChange={(e) => setConfession(e.target.value)}
-            placeholder="TYPE YOUR CONFESSION HERE..."
-            className="w-full bg-transparent border-none outline-none text-white py-3 px-6 text-base sm:text-lg overflow-visible"
-            maxLength={maxLength}
-            disabled={loading}
-            style={{ textOverflow: 'clip' }}
-          />
+          <div className="relative flex-grow">
+            <input
+              type="text"
+              value={confession}
+              onChange={(e) => setConfession(e.target.value)}
+              placeholder="TYPE YOUR CONFESSION HERE..."
+              className="w-full bg-transparent border-none outline-none text-white py-3 px-6 text-base sm:text-lg"
+              maxLength={maxLength}
+              disabled={loading}
+              style={{ paddingRight: "100px" }} // Add padding to prevent text from flowing under button
+            />
+            
+            {/* Character counter - made more dim */}
+            <div className="absolute bottom-1 left-6 flex items-center">
+              <span className={`text-xs ${confession.length > maxLength ? 'text-red-500' : 'text-white text-opacity-30'}`}>
+                {confession.length}/{maxLength}
+              </span>
+            </div>
+          </div>
           
-          <button
-            type="submit"
-            className="absolute right-2 rounded-full px-4 py-1 bg-cyber-black hover:bg-cyber-darkgray flex items-center justify-center disabled:opacity-50 transition-all duration-200 border border-white/10"
-            disabled={loading || !connected || !confession.trim()}
-          >
-            {loading ? (
-              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-            ) : (
-              <span className="text-white text-sm">CONFESS</span>
-            )}
-          </button>
-          
-          {/* Character counter - made more dim */}
-          <div className="absolute bottom-1 left-6 flex items-center">
-            <span className={`text-xs ${confession.length > maxLength ? 'text-red-500' : 'text-white text-opacity-30'}`}>
-              {confession.length}/{maxLength}
-            </span>
+          <div className="flex-shrink-0 pr-2">
+            <button
+              type="submit"
+              className="rounded-full px-4 py-1 bg-cyber-black hover:bg-cyber-darkgray flex items-center justify-center disabled:opacity-50 transition-all duration-200 border border-white/10"
+              disabled={loading || !connected || !confession.trim()}
+            >
+              {loading ? (
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+              ) : (
+                <span className="text-white text-sm">CONFESS</span>
+              )}
+            </button>
           </div>
         </div>
         
