@@ -32,7 +32,7 @@ const ConnectWallet: React.FC = () => {
             symbol: 'TEN',
             decimals: 18
           },
-          rpcUrls: ['https://rpc.ten.xyz'],
+          rpcUrls: ['https://testnet.ten.xyz'],
           blockExplorerUrls: ['https://tenscan.io']
         }]
       });
@@ -69,7 +69,7 @@ const ConnectWallet: React.FC = () => {
           
           {!isCorrectNetwork && (
             <a 
-              href="https://testnet.ten.xyz/"
+              href="https://gateway.ten.xyz/"
               target="_blank"
               rel="noopener noreferrer"
               className="ml-2 flex items-center text-xs text-white bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 active:from-orange-700 active:to-pink-700 px-2 py-1 rounded-full z-10 relative transition-colors duration-200"
